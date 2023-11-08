@@ -6,17 +6,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h2>Welcome to Supplier connect !</h2>
+        <p>This is our first demo page for the project.</p>
+        <p className="special-para">The above logo we have taken from the react page just for the reference and testing purpose.</p>
       </header>
     </div>
   );
