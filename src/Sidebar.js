@@ -1,41 +1,38 @@
 import React, {Component} from 'react';
 import './Sidebar.css'
+import {Link} from 'react-router-dom';
 
 class Sidebar extends Component {
     render() {
         return (
-            <div className="bg-white sidebar p-2">
-                <div className='m-2'>
-                    <i className="bi bi-bootstrap-fill me-2 fs-4"></i>
-                    <span className="brand-name fs-4">SupplierConnect</span>
+            <div className='sidebar d-flex flex-column justify-content-between bg-dark text-white p-4 vh-100'>
+                <div>
+                    <a href='d-flex align-items-center'>
+                        <i className='bi bi-bootstrap fs-5 me-2'></i>
+                        <span className='fs-4'>SupplierConnect</span>
+                    </a>
+                    <hr className='text-secondary' />
+                    <ul className="nav nav-pills flex-column">
+                        <li className="nav-item p-1">
+                            <Link className="nav-link text-white" to="/">Home</Link>
+                        </li>
+                        <li className="nav-item p-1">
+                            <Link className="nav-link text-white" to="order">Order</Link>
+                        </li>
+                        <li className="nav-item p-1">
+                            <a className="nav-link text-white" href="#">Products</a>
+                        </li>
+                        <li className="nav-item p-1">
+                            <a className="nav-link text-white" href="#">Reports</a>
+                        </li>
+                        <li className="nav-item p-1">
+                            <a className="nav-link text-white" href="#">Others</a>
+                        </li>
+                    </ul>
                 </div>
-                <hr className="text-dark" />
-                <div className='list-group list-group-flush'>
-                    <a className='list-group-item list-group-item-action py-2'>
-                        <i className="bi bi-speedometer-2 fs-5 me-2"></i>
-                        <span>Copy Sub Project</span>
-                    </a>
-                    <a className='list-group-item list-group-item-action py-2'>
-                        <i className="bi bi-table fs-2 me-2"></i>
-                        <span>Products</span>
-                    </a>
-                    <a className='list-group-item list-group-item-action py-2'>
-                        <i className="bi bi-clipboard fs-2 me-2"></i>
-                        <span>Reports</span>
-                    </a>
-                    <a className='list-group-item list-group-item-action py-2'>
-                        <i className="bi bi-people fs-2 me-2"></i>
-                        <span>Customers</span>
-                    </a>
-                    <a className='list-group-item list-group-item-action py-2'>
-                        <i className="bi bi-data fs-2 me-2"></i>
-                        <span>Data</span>
-                    </a>
-                    <a className='list-group-item list-group-item-action py-2'>
-                        <i className="bi bi-data fs-2 me-2"></i>
-                        <span>Others</span>
-                    </a>
-
+                <div>
+                    <hr className='text-secondary' />
+                    <a className='back-to-top' href=''>Back To Top</a>
                 </div>
             </div>
         );

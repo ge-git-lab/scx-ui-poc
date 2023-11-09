@@ -1,5 +1,7 @@
-.list-group a:hover {
+.sidebar nav {
+    padding: 0px !important;
+}
+.sidebar ul li a:hover {
     background-color: blue;
-    color: #ffffffff;
     cursor: pointer;
 }
