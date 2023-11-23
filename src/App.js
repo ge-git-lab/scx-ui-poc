@@ -34,5 +34,4 @@ export const fetchData = async () => {
   }
 };
 
-
 export default App;

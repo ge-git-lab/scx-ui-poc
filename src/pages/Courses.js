@@ -14,24 +14,69 @@ const Courses = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const data = await fetchData();
-        setCourseData(data);
-        console.log(data)
-      } catch (error) {
-        // Handle error
-      }
-    };
+  const [showModal, setShowModal] = useState(false)
 
-    getData();
-  }, []);
+  //state to manage form data
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    description: '',
+  })
 
   const handleAddData = () => {
-    setShowAddForm(true);
-    setEditData(null);
+    //set form data to default values or clean the form
+    setFormData({
+      name: '',
+      phone: '',
+      email: '',
+      address: '',
+      description: '',
+    });
+
+    setShowModal(true);
   };
+
+  const handleSaveData = async (data) => {
+    try {
+      //to make the post request to save the data to the backend 
+      const response = await fetch('https://99hqr8pdt2.execute-api.us-east-1.amazonaws.com/dev-test-1/dspSaveData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      });
+
+      if(response.ok) {
+        //handling successful response 
+        console.log('Data Saved Successfully');
+        //we can trigger any notification here in future
+      }
+    } catch (err) {
+      console.error('Error saving data:', err);
+    }
+  }
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const data = await fetchData();
+  //       setCourseData(data);
+  //       console.log(data)
+  //     } catch (error) {
+  //       // Handle error
+  //     }
+  //   };
+
+  //   getData();
+  // }, []);
+
+  // const handleAddData = async () => {
+  //   setShowAddForm(true);
+  //   setEditData(null);
+  // };
 
   const handleEditData = (data) => {
     setEditData(data);
@@ -85,11 +130,11 @@ const Courses = () => {
           </tbody>
         </Table>
         <AddDataForm
-          show={showAddForm}
+          show={showModal}
           editData={editData}
-          onClose={() => {
-            setShowAddForm(false);
-            setEditData(null);
+          handleClose={() => {
+            setShowModal(false);
+            handleSaveData={handleSaveData}
           }}
         />
       </div>
