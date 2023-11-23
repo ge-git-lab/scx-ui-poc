@@ -1,0 +1,49 @@
+/* Sidebar.css */
+.sidebar {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #8270c1;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .brand {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid white; /* Thicker separator line */
+    padding-bottom: 10px; /* Adjust as needed */
+  }
+  
+  .brand h2 {
+    color: white;
+    margin: 0;
+  }
+  
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    padding: 8px; /* Reduced padding */
+    margin-bottom: 0px; /* Increased bottom margin */
+    transition: background 0.3s; /* Add a transition effect for a smoother hover effect */
+  }
+  
+  .sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Background color on hover */
+  }
+  
+  .sidebar-icon {
+    margin-right: 10px;
+  }
+  
+  .separator {
+    margin: 5px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  
