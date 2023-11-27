@@ -50,7 +50,7 @@ const AddDataForm = ({ show, handleSaveData, handleClose, editData }) => {
     const handleEditData = async (data) => {
         try {
             // Make the PUT request to update existing data
-            const response = await fetch(`your-edit-endpoint/${editData.id}`, {
+            const response = await fetch(`https://h6qn3a64ve.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata/${editData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

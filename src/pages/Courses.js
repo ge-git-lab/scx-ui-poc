@@ -14,13 +14,14 @@ const Courses = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   
-
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await fetchData();
-        setCourseData(data);
-        console.log(data)
+        const response = await fetch('https://asxucwg1u7.execute-api.us-east-1.amazonaws.com/dev-test-1/dspfetchalldata')
+        const jsonData = await response.json()
+        const actualData = JSON.parse(jsonData.body);
+        setCourseData(actualData);
+        console.log(actualData)
       } catch (error) {
         // Handle error
       }
