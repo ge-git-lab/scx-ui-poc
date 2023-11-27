@@ -64,8 +64,27 @@ const Courses = () => {
     }
 };
 
-  const handleDeleteData = (id) => {
-    setCourseData((prevData) => prevData.filter((item) => item.id !== id));
+  const handleDeleteData = async (id) => {
+    // setCourseData((prevData) => prevData.filter((item) => item.id !== id));
+    try {
+      const response = await fetch(`https://gbupm30ss8.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspdeletedata/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include any additional headers if needed
+        },
+      });
+
+      if (response.status === 204) {
+        // Successful deletion
+        // Update your state or fetch data again as needed
+      } else {
+        // Handle errors
+        console.error('Error deleting data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting data:', error.message);
+    }
   };
 
   return (
