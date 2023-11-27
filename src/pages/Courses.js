@@ -64,6 +64,7 @@ const Courses = () => {
     }
 };
 
+//to delete a single item
   const handleDeleteData = async (id) => {
     // setCourseData((prevData) => prevData.filter((item) => item.id !== id));
     try {
@@ -87,14 +88,40 @@ const Courses = () => {
     }
   };
 
+  //to delete all the data 
+  const handleDeleteAll = async () => {
+    try {
+        const response = await fetch('https://vc3d6uum44.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspdeletealldata', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // Include any additional headers if needed
+            },
+        });
+
+        if (response.status === 204) {
+            // Successful deletion of all records
+            // Update your state or fetch data again as needed
+        } else {
+            // Handle errors
+            console.error('Error deleting all data:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error deleting all data:', error.message);
+    }
+};
+
   return (
     <div className='row'>
        <Header title="SCX Data Page" />
       <div className="container mt-4 mb-2">
         <div className="d-flex justify-content-end">
           <div className="ml-2">
-            <Button variant="success" onClick={handleAddData}>
+            <Button variant="success" className="me-2" onClick={handleAddData}>
               Add Data
+            </Button>
+            <Button variant="danger"  onClick={handleDeleteAll}>
+              Delete All
             </Button>
           </div>
         </div>
