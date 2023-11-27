@@ -1,15 +1,17 @@
 // components/AddDataForm.js
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import handleSaveData from '../pages/Courses'
 
-const AddDataForm = ({ show, editData, handleSaveData, handleClose }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
-    description: '',
-  });
+const AddDataForm = ({ show, handleSaveData, handleClose, editData }) => {
+    // const [show, setShow] = useState(false);
+    const [formData, setFormData] = useState(editData || {
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+        description: '',
+    }); //initialize formData with editData if provided
 
   useEffect(() => {
     // If we are editing existing data, populate the form with that data
@@ -18,7 +20,12 @@ const AddDataForm = ({ show, editData, handleSaveData, handleClose }) => {
     }
   }, [editData]);
 
-  const handleInputChange = (e) => {
+    // const handleClose = () => {
+    //     setFormData({});
+    //     setShow(false);
+    // }
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -26,49 +33,70 @@ const AddDataForm = ({ show, editData, handleSaveData, handleClose }) => {
     }));
   };
 
-  const handleSave = () => {
-    // logic to save data to the backend
-    handleSaveData(formData);
-    console.log('Save data:', formData);
+    const handleSave = () => {
+        // Call the function to save data to the backend
+        if (editData) {
+            // If editing existing data
+            handleEditData(formData);
+        } else {
+            // If adding new data
+            handleSaveData(formData);
+        }
+        // Close the modal after saving
+        setFormData({});
+        handleClose();
+    };
 
-    // Reset the form after saving
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
-      description: '',
-    });
+    const handleEditData = async (data) => {
+        try {
+            // Make the PUT request to update existing data
+            const response = await fetch(`your-edit-endpoint/${editData.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-    handleClose(); // Close the modal after saving and reset
-  };
+            if (response.ok) {
+                // Handle successful response
+                console.log('Data updated successfully!');
+                // You can update the UI or trigger any other actions
+            } else {
+                // Handle error response
+                console.error('Failed to update data:', response.status);
+            }
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
+    };
 
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{editData ? 'Edit Data' : 'Add Data'}</Modal.Title>
+        <Modal.Title>{formData.id ? 'Edit Data' : 'Add Data'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group controlId="name">
             <Form.Label>Name:</Form.Label>
-            <Form.Control type="text" name="name" value={formData.name} onChange={handleInputChange} />
+            <Form.Control type="text" name="name" value={formData.name || ''} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="phone">
             <Form.Label>Phone:</Form.Label>
-            <Form.Control type="text" name="phone" value={formData.phone} onChange={handleInputChange} />
+            <Form.Control type="text" name="phone" value={formData.phone} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="email">
             <Form.Label>Email:</Form.Label>
-            <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} />
+            <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="address">
             <Form.Label>Address:</Form.Label>
-            <Form.Control type="text" name="address" value={formData.address} onChange={handleInputChange} />
+            <Form.Control type="text" name="address" value={formData.address} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="description">
             <Form.Label>Description:</Form.Label>
-            <Form.Control type="text" name="description" value={formData.description} onChange={handleInputChange} />
+            <Form.Control type="text" name="description" value={formData.description} onChange={handleChange} />
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -77,7 +105,7 @@ const AddDataForm = ({ show, editData, handleSaveData, handleClose }) => {
           Close
         </Button>
         <Button variant="primary" onClick={handleSave}>
-          Save
+          {formData.id ? 'Save Changes': 'Save Data'}
         </Button>
       </Modal.Footer>
     </Modal>

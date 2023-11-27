@@ -13,75 +13,55 @@ const Courses = () => {
   const [courseData, setCourseData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
+  
 
-  const [showModal, setShowModal] = useState(false)
-
-  //state to manage form data
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
-    description: '',
-  })
-
-  const handleAddData = () => {
-    //set form data to default values or clean the form
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
-      description: '',
-    });
-
-    setShowModal(true);
-  };
-
-  const handleSaveData = async (data) => {
-    try {
-      //to make the post request to save the data to the backend 
-      const response = await fetch('https://99hqr8pdt2.execute-api.us-east-1.amazonaws.com/dev-test-1/dspSaveData', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data),
-      });
-
-      if(response.ok) {
-        //handling successful response 
-        console.log('Data Saved Successfully');
-        //we can trigger any notification here in future
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await fetchData();
+        setCourseData(data);
+        console.log(data)
+      } catch (error) {
+        // Handle error
       }
-    } catch (err) {
-      console.error('Error saving data:', err);
-    }
-  }
+    };
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const data = await fetchData();
-  //       setCourseData(data);
-  //       console.log(data)
-  //     } catch (error) {
-  //       // Handle error
-  //     }
-  //   };
+    getData();
+  }, []);
 
-  //   getData();
-  // }, []);
-
-  // const handleAddData = async () => {
-  //   setShowAddForm(true);
-  //   setEditData(null);
-  // };
+  const handleAddData = async () => {
+    setShowAddForm(true);
+    setEditData(null);
+  };
 
   const handleEditData = (data) => {
     setEditData(data);
     setShowAddForm(true);
   };
+
+  const handleSaveData = async (data) => {
+    try {
+        // Make the POST request to save data to the backend
+        const response = await fetch('https://99hqr8pdt2.execute-api.us-east-1.amazonaws.com/dev-test-1/dspSaveData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            // Handle successful response
+            console.log('Data saved successfully!');
+            // You can update the UI or trigger any other actions
+        } else {
+            // Handle error response
+            console.error('Failed to save data:', response.status);
+        }
+    } catch (error) {
+        console.error('Error saving data:', error);
+    }
+};
 
   const handleDeleteData = (id) => {
     setCourseData((prevData) => prevData.filter((item) => item.id !== id));
@@ -130,11 +110,12 @@ const Courses = () => {
           </tbody>
         </Table>
         <AddDataForm
-          show={showModal}
+          show={showAddForm}
           editData={editData}
+          handleSaveData={handleSaveData}
           handleClose={() => {
-            setShowModal(false);
-            handleSaveData={handleSaveData}
+            setShowAddForm(false);
+            setEditData(null);
           }}
         />
       </div>
