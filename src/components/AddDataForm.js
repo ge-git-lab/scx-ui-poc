@@ -7,8 +7,8 @@ const AddDataForm = ({ show, handleSaveData, handleClose, editData }) => {
     // const [show, setShow] = useState(false);
     const [formData, setFormData] = useState(editData || {
         name: '',
-        phone: '',
         email: '',
+        phone: '',
         address: '',
         description: '',
     }); //initialize formData with editData if provided
@@ -46,12 +46,12 @@ const AddDataForm = ({ show, handleSaveData, handleClose, editData }) => {
         setFormData({});
         handleClose();
     };
-
+    
     const handleEditData = async (data) => {
         try {
             // Make the PUT request to update existing data
-            const response = await fetch(`https://h6qn3a64ve.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata/${editData.id}`, {
-                method: 'PUT',
+            const response = await fetch(`https://nhwx7j6qaa.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata/${editData.id}`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -82,13 +82,13 @@ const AddDataForm = ({ show, handleSaveData, handleClose, editData }) => {
             <Form.Label>Name:</Form.Label>
             <Form.Control type="text" name="name" value={formData.name || ''} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="phone">
-            <Form.Label>Phone:</Form.Label>
-            <Form.Control type="text" name="phone" value={formData.phone} onChange={handleChange} />
-          </Form.Group>
           <Form.Group controlId="email">
             <Form.Label>Email:</Form.Label>
             <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group controlId="phone">
+            <Form.Label>Phone:</Form.Label>
+            <Form.Control type="text" name="phone" value={formData.phone} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="address">
             <Form.Label>Address:</Form.Label>

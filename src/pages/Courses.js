@@ -13,11 +13,12 @@ const Courses = () => {
   const [courseData, setCourseData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [deleted, setDeleted] = useState(false);
   
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch('https://asxucwg1u7.execute-api.us-east-1.amazonaws.com/dev-test-1/dspfetchalldata')
+        const response = await fetch('https://ulqifq6ii2.execute-api.us-east-1.amazonaws.com/scx-dsp/dspresource')
         const jsonData = await response.json()
         const actualData = JSON.parse(jsonData.body);
         setCourseData(actualData);
@@ -43,10 +44,11 @@ const Courses = () => {
   const handleSaveData = async (data) => {
     try {
         // Make the POST request to save data to the backend
-        const response = await fetch('https://99hqr8pdt2.execute-api.us-east-1.amazonaws.com/dev-test-1/dspSaveData', {
+        const response = await fetch('https://ulqifq6ii2.execute-api.us-east-1.amazonaws.com/scx-dsp/dspresource', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Headers': '*',
             },
             body: JSON.stringify(data),
         });
@@ -65,10 +67,10 @@ const Courses = () => {
 };
 
 //to delete a single item
-  const handleDeleteData = async (id) => {
+  const handleDeleteData = async (idToDelete) => {
     // setCourseData((prevData) => prevData.filter((item) => item.id !== id));
     try {
-      const response = await fetch(`https://gbupm30ss8.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspdeletedata/${id}`, {
+      const response = await fetch('https://nhwx7j6qaa.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata/${idToDelete}', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -76,8 +78,10 @@ const Courses = () => {
         },
       });
 
-      if (response.status === 204) {
+      if (response.ok) {
         // Successful deletion
+        setDeleted(true)
+        console.log('deleted the data')
         // Update your state or fetch data again as needed
       } else {
         // Handle errors
@@ -129,19 +133,18 @@ const Courses = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Phone</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Address</th>
               <th>Description</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {courseData.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
-                <td>{item.phone}</td>
                 <td>{item.email}</td>
+                <td>{item.phone}</td>
                 <td>{item.address}</td>
                 <td>{item.description}</td>
                 <td>
