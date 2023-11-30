@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Sidebar from './components/Sidebar';
 import { BrowserRouter as Router } from 'react-router-dom'
 import AppRoutes from './components/Routes';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
             <AppRoutes />
         </div>
     </div>
+    <ToastContainer />
     </Router>
+
   );
 }
 
