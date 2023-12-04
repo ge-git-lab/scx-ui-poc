@@ -1,48 +1,35 @@
 // pages/course.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
-// import Button from '../components/Button';
-// import AddDataForm from '../components/AddDataForm';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import DataTable from '../components/DataTable';
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import { Button, Table } from 'react-bootstrap';
 import AddDataForm from '../components/AddDataForm';
+// import Button from '../components/Button';
+import { Modal, Button, Table} from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import axios from 'axios'
+import { CSVLink } from 'react-csv';
+import 'react-toastify/dist/ReactToastify.css';
+import { fetchData, saveData, updateData, deleteData, deleteAllData, importData, exportData } from "../components/Api"
 
 const Courses = () => {
   const [courseData, setCourseData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleted, setDeleted] = useState(false);
+  const fileInputRef = useRef(null);
+  const [show, setShow] = useState(false);
 
-  // to fetch the data
-  const getData = async () => {
+  const fetchDataAndSetState = async () => {
     try {
-      const response = await fetch('https://asxucwg1u7.execute-api.us-east-1.amazonaws.com/dev-test-1/dspfetchalldata')
-      const jsonData = await response.json()
-      const actualData = JSON.parse(jsonData.body);
+      const result = await fetchData('https://asxucwg1u7.execute-api.us-east-1.amazonaws.com/dev-test-1/dspfetchalldata');
+      const actualData = JSON.parse(result.body);
       setCourseData(actualData);
-      console.log(actualData)
     } catch (error) {
-      // Handle error
+      console.log('Error fetching the data');
     }
-  };
-  
-  useEffect(() => {
-    // const getData = async () => {
-    //   try {
-    //     const response = await fetch('https://asxucwg1u7.execute-api.us-east-1.amazonaws.com/dev-test-1/dspfetchalldata')
-    //     const jsonData = await response.json()
-    //     const actualData = JSON.parse(jsonData.body);
-    //     setCourseData(actualData);
-    //     console.log(actualData)
-    //   } catch (error) {
-    //     // Handle error
-    //   }
-    // };
+  }
 
-    getData();
+  useEffect(() => {
+    fetchDataAndSetState();
   }, []);
 
   const handleAddData = async () => {
@@ -55,103 +42,145 @@ const Courses = () => {
     setShowAddForm(true);
   };
 
+  const handleShow = () => {
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  //function to save a data
   const handleSaveData = async (data) => {
     try {
-        // Make the POST request to save data to the backend
-        const response = await fetch('https://zaoz973vnj.execute-api.us-east-1.amazonaws.com/scx-dsp/dspsavedata', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+      await saveData('https://zaoz973vnj.execute-api.us-east-1.amazonaws.com/scx-dsp/dspsavedata', data);
 
-        if (response.ok) {
-            // Handle successful response
-            console.log('Data saved successfully!');
-            // You can update the UI or trigger any other actions
-        } else {
-            // Handle error response
-            console.error('Failed to save data:', response.status);
-        }
-        getData();
+      fetchDataAndSetState();
     } catch (error) {
-        console.error('Error saving data:', error);
+      console.error('Error saving data:', error);
     }
-};
+  };
 
-//to delete a single item
+  //to delete a single item
   const handleDeleteData = async (idToDelete) => {
-    const isConfirmed = window.confirm('Are you sure want to delete the item ?')
-    if (isConfirmed) {
-      try {
+    try {
+      await deleteData('https://nhwx7j6qaa.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata', idToDelete)
+      setDeleted(true)
+      fetchDataAndSetState();
+    } catch (error) {
+      toast.error('Error deleting data', { position: toast.POSITION.TOP_CENTER })
+      console.error('Error deleting data:', error.message);
+    }
+  }
 
-        const response = await fetch(`https://nhwx7j6qaa.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata/${idToDelete}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            // Include any additional headers if needed
-          },
-        });
+  const importDataInCSV = async () => {
+    const backendData = await handleImport();
+    const actualData = JSON.parse(backendData);
+    const headers = Object.keys(actualData[0]);
+    const csvData = [headers, ...actualData.map(obj => Object.values(obj))];
 
+    //created a temp csv link to trigger the download
+    const csvLink = document.createElement('a');
+    csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
+    csvLink.target = '_blank';
+    csvLink.download = 'dsp_data.csv';
+    csvLink.click();
+    toast.success('Data imported successfully!', {
+      position: toast.POSITION.TOP_CENTER
+    });
+  };
+  //to hadle the import data from db
+  const handleImport = async () => {
+    try {
+      const response = await exportData('https://zkegmoos07.execute-api.us-east-1.amazonaws.com/scx-dsp/dspImportdata');
+      const csvData = response;
+      return csvData;
+      //Process the csv data as needed 
+      console.log(csvData);
+    } catch (error) {
+      console.error('Error importing data:', error);
+    }
+  }
 
-        if (response.ok) {
-          // Successful deletion
-          setDeleted(true)
-          toast.success('Item deleted successfully!', { position: toast.POSITION.TOP_CENTER });
-          console.log('deleted the data')
-          // Update your state or fetch data again as needed
-        } else {
-          // Handle errors
-          toast.warning('Failed to delete data, please try again!', { position: toast.POSITION.TOP_CENTER });
-          console.error('Error deleting data:', response.statusText);
+  //to hadle the export data from db
+  const handleExport = async () => {
+    try {
+      const fileInput = fileInputRef.current;
+
+      if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+          const csvData = fileReader.result;
+          importData(csvData);
         }
-        getData();
-      } catch (error) {
-        toast.error('Error deleting data', { position: toast.POSITION.TOP_CENTER })
-        console.error('Error deleting data:', error.message);
+
+        fileReader.readAsText(file);
+      } else {
+        console.error('No file selected');
       }
-    } else {
-       toast.info('Deletion cancelled.', { position: toast.POSITION.TOP_CENTER })
+    } catch (err) {
+      console.error('Error exporting data:', err);
     }
   }
 
   //to delete all the data 
   const handleDeleteAll = async () => {
     try {
-        const response = await fetch('https://vc3d6uum44.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspdeletealldata', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                // Include any additional headers if needed
-            },
-        });
+      const response = await fetch('https://vc3d6uum44.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspdeletealldata', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include any additional headers if needed
+        },
+      });
 
-        if (response.status === 204) {
-            // Successful deletion of all records
-            // Update your state or fetch data again as needed
-        } else {
-            // Handle errors
-            console.error('Error deleting all data:', response.statusText);
-        }
-        getData();
+      if (response.status === 204) {
+        // Successful deletion of all records
+        // Update your state or fetch data again as needed
+      } else {
+        // Handle errors
+        console.error('Error deleting all data:', response.statusText);
+      }
+      // getData();
     } catch (error) {
-        console.error('Error deleting all data:', error.message);
+      console.error('Error deleting all data:', error.message);
     }
-};
+  };
 
   return (
     <div className='row'>
-       <Header title="SCX Data Page" />
+      <Header title="SCX Data Page" />
       <div className="container mt-4 mb-2">
         <div className="d-flex justify-content-end">
           <div className="ml-2">
-            <Button variant="success" className="me-2" onClick={handleAddData}>
+            <Button variant="warning" className="me-1" onClick={importDataInCSV}>
+              Import Data
+            </Button>
+            <Button variant="warning" className="me-1" onClick={handleShow}>
+              Export Data
+            </Button>
+            <Modal
+              show={show}
+              onHide={handleClose}
+              contentLabel="File Attachment Modal">
+              <Modal.Header closeButton>
+                <Modal.Title>Attach File</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <input type='file' ref={fileInputRef} accept=".csv, .xlsx" />
+                <Button  variant="primary"onClick={handleExport} className='me-1'>Export</Button>
+                <Button variant="secondary" onClick={handleClose}>Close</Button>
+              </Modal.Body>
+            </Modal>
+            <Button variant="success" className="me-1" onClick={handleAddData}>
               Add Data
             </Button>
-            <Button variant="danger"  onClick={handleDeleteAll}>
+            <Button variant="danger" onClick={handleDeleteAll}>
               Delete All
             </Button>
+
           </div>
         </div>
         <Table striped bordered hover className="mt-3">
@@ -173,9 +202,9 @@ const Courses = () => {
                 <td>{item.address}</td>
                 <td>{item.description}</td>
                 <td>
-                  <Button variant="primary" onClick={() => handleEditData(item)}>
+                  <Button variant="primary" className="me-1" onClick={() => handleEditData(item)}>
                     Edit
-                  </Button>{' '}
+                  </Button>
                   <Button variant="danger" onClick={() => handleDeleteData(item.id)}>
                     Delete
                   </Button>
