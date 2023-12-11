@@ -1,0 +1,65 @@
+.header-content {
+    margin-bottom: 98px;
+    padding: 4px;
+    border: 1px solid #0000;
+    background: navy;
+    color: white;
+}
+.header-content h2 {
+    font-size: 24px;
+}
+
+.dsp-custom-table {
+    border-collapse: separate;
+    border-spacing: 0ch;
+}
+.dsp-custom-table th,
+.dsp-custom-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+.dsp-custom-table tr {
+    height: 30px;
+}
+
+.remove-border-icon {
+    border: 0;
+    outline: none;
+    background: none !important;
+}
+.edit-icon {
+    color: blue;
+    font-size: 18px;
+}
+.delete-icon {
+    color: #DC4C64;
+    font-size: 18px;
+}
+.btn-custom {
+    background: navy !important;
+}
+.icon-custom {
+    color: #ffffff;
+}
+.btn-custom-add:hover {
+   background-color: #008000 !important;
+}
+.btn-custom-upload:hover {
+    background-color: #800080 !important;
+ }
+ .btn-custom-download:hover {
+    background-color: #6495ED !important;
+ }
+ .btn-custom-delete:hover {
+    background-color: #DC4C64 !important;
+ }
+ tr.dsp-ellipsis td {
+    max-width: 200px;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-transform: capitalize;
+}
+tr.dsp-ellipsis td.dq_report_name {
+    text-transform: uppercase !important;
+}
