@@ -43,11 +43,8 @@ export const updateData = async (endpoint, id, data) => {
 export const deleteData = async (endpoint, id, data) => {
     try {
         await axios.delete(`${endpoint}/${id}`, data);
-        
-        // toast.success('Data deleted successfully!', { position: toast.POSITION.TOP_CENTER });
     } catch (err) {
         console.error('Error deleting the data:', err);
-        // toast.error('Failed to delete data', { position: toast.POSITION.TOP_CENTER })
         throw err;
     }
 };
@@ -71,10 +68,8 @@ export const exportData = async (endpoint) => {
             responseType: 'text',
         });
         return response.data;
-        // toast.success('All Data deleted successfully!', { position: toast.POSITION.TOP_CENTER });
     } catch (err) {
         console.error('Error exporting the data:', err);
-        // toast.error('Failed to delete all data', { position: toast.POSITION.TOP_CENTER })
         throw err;
     }
 };
@@ -83,15 +78,10 @@ export const exportData = async (endpoint) => {
 export const importData = async (endpoint, csvData) => {
     try {
         await axios.post(endpoint, csvData, {
-            // headers: {
-            //     'Content-Type': 'text/csv',
-            // }
         });
-        // toast.success('All Data deleted successfully!', { position: toast.POSITION.TOP_CENTER });
         console.log('Data Imported successfully')
     } catch (err) {
         console.error('Error exporting the data:', err);
-        // toast.error('Failed to delete all data', { position: toast.POSITION.TOP_CENTER })
         throw err;
     }
 };
