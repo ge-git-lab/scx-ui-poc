@@ -90,6 +90,7 @@ const CopySubsDQApproval = () => {
         csvLink.target = '_blank';
         csvLink.download = 'dsp_data.csv';
         csvLink.click();
+        fetchDataAndSetState();
         toast.success('Data imported successfully!', {
             position: toast.POSITION.TOP_CENTER
         });
