@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
 import { fetchData, saveData, updateData, deleteData, deleteAllData, importData, exportData } from "../component/Api"
+import DeleteConfirmation from '../component/DeleteConfirmation';
 
 const CopySubsDQApproval = () => {
     const [subDqApprovalData, setsubDqApprovalData] = useState([]);
@@ -14,6 +15,8 @@ const CopySubsDQApproval = () => {
     const [editData, setEditData] = useState(null);
     const fileInputRef = useRef(null);
     const [show, setShow] = useState(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [itemNameToDelete, setItemNameToDelete] = useState('');
 
     //to fetch the data from backend 
     const fetchDataAndSetState = async () => {
@@ -63,13 +66,12 @@ const CopySubsDQApproval = () => {
     const handleDeleteData = async (idToDelete) => {
         try {
             await deleteData('https://k8i5vp9r2c.execute-api.us-east-1.amazonaws.com/dsp-scx/dspupdatedata', idToDelete)
-            // setDeleted(true)
             toast.success('Deleted the data successfully!', {
                 position: toast.POSITION.TOP_CENTER
             });
             fetchDataAndSetState();
+            
         } catch (error) {
-            // toast.error('Error deleting data', { position: toast.POSITION.TOP_CENTER })
             console.error('Error deleting data:', error.message);
         }
         fetchDataAndSetState();
@@ -142,20 +144,18 @@ const CopySubsDQApproval = () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Include any additional headers if needed
                 },
             });
 
             if (response.status === 200) {
-                // Successful deletion of all records
                 toast.success('Deleted all data successfully!', {
                     position: toast.POSITION.TOP_CENTER
                 });
                 fetchDataAndSetState();
             } else {
-                // Handle errors
                 console.error('Error deleting all data:', response.statusText);
             }
+            setShowDeleteConfirmation(false);
 
         } catch (error) {
             console.error('Error deleting all data:', error.message);
@@ -166,7 +166,7 @@ const CopySubsDQApproval = () => {
     return (
         <div className="home-container">
             <div className='header-content'>
-                <h2 className="typewriter-text text-center">Copy Subs DQ Approval</h2>
+                <h4 className="typewriter-text text-center">Copy Subs DQ Approval</h4>
             </div>
             <div className='button-section  mt-5 d-flex justify-content-end'>
                 <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
@@ -192,9 +192,15 @@ const CopySubsDQApproval = () => {
                 <button type='button' className=' btn-custom btn btn-custom-download me-1' onClick={importDataInCSV}>
                     <FontAwesomeIcon icon={faDownload} className='icon-custom edit-icon' />
                 </button>
-                <button type='button' className='btn-custom btn btn-custom-delete' onClick={handleDeleteAll}>
+                <button type='button' className='btn-custom btn btn-custom-delete' onClick={() => {setItemNameToDelete('All items'); setShowDeleteConfirmation(true)}}>
                     <FontAwesomeIcon icon={faTrash} className='icon-custom edit-icon' />
                 </button>
+                <DeleteConfirmation
+                    show={showDeleteConfirmation}
+                    onHide={() => setShowDeleteConfirmation(false)}
+                    onDelete={handleDeleteAll}
+                    itemName={itemNameToDelete}
+                />
             </div>
             <div className='table-content mt-3'>
                 <table className="table table-striped dsp-custom-table">

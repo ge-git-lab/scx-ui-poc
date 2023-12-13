@@ -53,7 +53,7 @@ export const deleteData = async (endpoint, id, data) => {
 export const deleteAllData = async (endpoint) => {
     try {
         await axios.delete(endpoint);
-        toast.success('All Data deleted successfully!', { position: toast.POSITION.TOP_CENTER });
+        // toast.success('All Data deleted successfully!', { position: toast.POSITION.TOP_CENTER });
     } catch (err) {
         console.error('Error deketing the data:', err);
         toast.error('Failed to delete all data', { position: toast.POSITION.TOP_CENTER })

@@ -5,7 +5,7 @@ import '../styles/Home.css'; // Import the CSS file
 const Home = () => {
   return (
     <div className="home-container">
-      <h1 className="typewriter-text text-center">Welcome to SupplierConnect</h1>
+      <h4 className="typewriter-text text-center">Welcome to Supplier Connect</h4>
       {/* Add more content as needed */}
     </div>
   );

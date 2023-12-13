@@ -4,7 +4,7 @@ import '../styles/Home.css';
 const SubLevelDqRemediation = () => {
   return (
     <div className="home-container">
-      <h1 className="typewriter-text text-center">Subs Level DQ Remediation</h1>
+      <h4 className="typewriter-text text-center">Subs Level DQ Remediation</h4>
     </div>
   );
 };
