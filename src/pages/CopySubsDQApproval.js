@@ -62,7 +62,7 @@ const CopySubsDQApproval = () => {
     //to delete a single item
     const handleDeleteData = async (idToDelete) => {
         try {
-            await deleteData('https://nhwx7j6qaa.execute-api.us-east-1.amazonaws.com/scx-dev-1/dspupdatedata', idToDelete)
+            await deleteData('https://k8i5vp9r2c.execute-api.us-east-1.amazonaws.com/dsp-scx/dspupdatedata', idToDelete)
             // setDeleted(true)
             toast.success('Deleted the data successfully!', {
                 position: toast.POSITION.TOP_CENTER
@@ -125,11 +125,11 @@ const CopySubsDQApproval = () => {
                 fileReader.readAsText(file);
                 setShow(false);
                 fetchDataAndSetState();
-                toast.success('Data inserted successfully!', { position: toast.POSITION.TOP_CENTER });
-                // window.location.reload()
             } else {
                 console.error('No file selected');
             }
+            toast.success('Data inserted successfully!', { position: toast.POSITION.TOP_CENTER });
+            
         } catch (err) {
             console.error('Error exporting data:', err);
         }
