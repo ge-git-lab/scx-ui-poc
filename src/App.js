@@ -11,17 +11,18 @@ import { faAngleDown, faAngleRight, faHome, faFileAlt } from '@fortawesome/free-
 function App() {
   return (
     <Router>
-    <div className="container-fluid">
-      <div className="sidebar">
-        <Sidebar />
-        </div>
-        <div className="content">
+      <div className="container-fluid">
+        <div class='row'>
+          <div className="col-3">
+            <Sidebar />
+          </div>
+          <div className="col-9">
             <AppRoutes />
+          </div>
         </div>
-    </div>
-    <ToastContainer autoClose={3000} />
+      </div>
+      <ToastContainer autoClose={3000} />
     </Router>
-
   );
 }
 

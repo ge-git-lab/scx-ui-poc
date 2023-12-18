@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddDataForm from '../component/AddDataForm';
+import Header from '../component/Header'
 import { Modal, Button, Table} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -164,11 +165,11 @@ const CopySubsDQApproval = () => {
 
 
     return (
-        <div className="home-container">
-            <div className='header-content'>
-                <h4 className="typewriter-text text-center">Copy Subs DQ Approval</h4>
-            </div>
-            <div className='button-section  mt-5 d-flex justify-content-end'>
+        <div className="container-fluid">
+            <div className='row'>
+                <div className='col-md-12'></div>
+            <Header title="Copy Subs DQ Approval" />
+            <div className='button-section d-flex justify-content-end mt-5'>
                 <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
                     <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
                 </button>
@@ -244,6 +245,7 @@ const CopySubsDQApproval = () => {
                     }}
                 />
             </div>
+        </div>
         </div>
     );
 };

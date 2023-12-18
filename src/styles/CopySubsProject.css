@@ -1,23 +1,14 @@
-.header-content {
-    margin-bottom: 98px;
-    padding: 4px;
-    border: 1px solid #0000;
-    background: navy;
-    color: white;
-}
-.header-content h2 {
-    font-size: 24px;
-}
-
 .dsp-custom-table {
     border-collapse: separate;
     border-spacing: 0ch;
 }
+
 .dsp-custom-table th,
 .dsp-custom-table td {
     border: 1px solid #dddddd;
     padding: 8px;
 }
+
 .dsp-custom-table tr {
     height: 30px;
 }
@@ -27,39 +18,86 @@
     outline: none;
     background: none !important;
 }
+
 .edit-icon {
     color: blue;
     font-size: 18px;
 }
+
 .delete-icon {
     color: #DC4C64;
     font-size: 18px;
 }
+
 .btn-custom {
     background: navy !important;
 }
+
 .icon-custom {
     color: #ffffff;
 }
+
 .btn-custom-add:hover {
-   background-color: #008000 !important;
+    background-color: #008000 !important;
 }
+
 .btn-custom-upload:hover {
     background-color: #800080 !important;
- }
- .btn-custom-download:hover {
+}
+
+.btn-custom-download:hover {
     background-color: #6495ED !important;
- }
- .btn-custom-delete:hover {
+}
+
+.btn-custom-delete:hover {
     background-color: #DC4C64 !important;
- }
- tr.dsp-ellipsis td {
+}
+
+tr.dsp-ellipsis td {
     max-width: 200px;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     text-transform: capitalize;
 }
+
 tr.dsp-ellipsis td.dq_report_name {
     text-transform: uppercase !important;
 }
+
+/* common component */
+.scrollable-content {
+    max-width: 100%;
+    padding: 20px;
+    overflow-x: auto;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+  }
+  
+  .scrollable-content::-webkit-scrollbar {
+    height: 10px !important;
+  }
+  
+  .scrollable-content::-webkit-scrollbar-thumb {
+    background-color: navy; /* Set the color of the scrollbar thumb */
+    border-radius: 3px; /* Set the border radius of the thumb */
+  }
+  
+  .scrollable-content::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Set the color of the scrollbar track */
+  }
+  
+  /* Optional: Add styles for scrollbar customization */
+  ::-webkit-scrollbar {
+    width: 10px;
+    /* Adjust as needed */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: navy;
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
