@@ -123,5 +123,119 @@ const deleteHandler = async (event) => {
     }
 };
 
+import pg from 'pg';
+const { Pool } = pg;
+const pool = new Pool({
+    host: 'scx-test.cw4egqieaqh9.us-east-1.rds.amazonaws.com',
+    user: 'scx_glue_user',
+    port: 5432,
+    password: 'Test3456',
+    database: 'dcssupplierconnect'
+})
+const client = await pool.connect();
+
+
+export const handler = async (event) => {
+    const method = event.httpMethod;
+    switch (method) {
+        case 'GET':
+            return exportHandler();
+        case 'POST':
+            return importHandler(event);
+        case 'DELETE':
+            return deleteAllHandler(event);
+        default:
+            return {
+                statusCode: 400,
+                body: JSON.stringify({ message: 'Invalid HTTP method' }),
+            };
+    }
+};
+
+// Example GET Handler
+const exportHandler = async () => {
+    try {
+        const result = await client.query('SELECT data_source, subscription_id, sc_id, SCX_id, commodity_1, commodity_2, commodity_3, po_email, rem_email, payterm, missing_values, processing_status, updated_by FROM mdm_dbo.Scx_copy_subs_DQ_inputs');
+        const response = {
+            statusCode: 200,
+            headers: {
+                'Content-Type': 'text/csv',
+                'Content-Disposition': 'attachment; filename=dq_rem_data.csv',
+                'Access-Control-Allow-Origin': '*', // Allow requests from any origin
+                'Access-Control-Allow-Headers': 'Content-Type', // Allow only Content-Type header
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE', // Allow only GET requests
+            },
+            body: JSON.stringify(result.rows)
+        }
+        return response;
+    } catch (err) {
+        console.error('Error retreieving data', err.message)
+        const response = {
+            statusCode: 500,
+            body: JSON.stringify({
+                error: 'Internal Server Error'
+            }),
+        };
+        return response;
+    }
+};
+
+// Example POST Handler
+const importHandler = async (event) => {
+    try {
+        const rows = event.body.split('\n').map(row => row.split(','));
+
+        // Assuming the first row is header
+        const header = rows[0];
+        const values = rows.slice(1);
+
+        // Insert data into the database
+        for (const value of values) {
+            const query = {
+                text: `
+          INSERT INTO mdm_dbo.Scx_copy_subs_DQ_inputs (data_source, subscription_id, sc_id, SCX_id, commodity_1, commodity_2, commodity_3, po_email, rem_email, payterm, missing_values, processing_status, updated_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *
+        `,
+                values: value,
+            };
+
+            await client.query(query);
+        }
+
+
+        return {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access Control-Allow-Methods': 'POST, PUT, GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+            },
+            statusCode: 200,
+            body: JSON.stringify({ message: 'Data inserted successfully' })
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: 'Error inserting data into PostgreSQL', error }),
+        };
+    }
+};
+
+//DELETE Handler
+const deleteAllHandler = async (event) => {
+    try {
+        const deleteQquery = 'DELETE FROM mdm_dbo.Scx_copy_subs_DQ_inputs';
+        const result = await client.query(deleteQquery);
+        return {
+            statusCode: 200,
+            body: JSON.stringify(result.rows),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: 'Error deleting data from PostgreSQL', error }),
+        };
+    }
+};
+
+
 
 

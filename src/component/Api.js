@@ -42,7 +42,8 @@ export const updateData = async (endpoint, id, data) => {
 //fucntion to delete the data from db
 export const deleteData = async (endpoint, id, data) => {
     try {
-        await axios.delete(`${endpoint}/${id}`, data);
+        const result = await axios.delete(`${endpoint}/${id}`, data);
+        return result;
     } catch (err) {
         console.error('Error deleting the data:', err);
         throw err;
@@ -50,9 +51,10 @@ export const deleteData = async (endpoint, id, data) => {
 };
 
 //fucntion to delete all the data from db
-export const deleteAllData = async (endpoint) => {
+export const deleteAllData = async (endpoint, {}) => {
     try {
-        await axios.delete(endpoint);
+        const result = await axios.delete(endpoint);
+        return result;
         // toast.success('All Data deleted successfully!', { position: toast.POSITION.TOP_CENTER });
     } catch (err) {
         console.error('Error deketing the data:', err);

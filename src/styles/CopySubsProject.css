@@ -72,6 +72,8 @@ tr.dsp-ellipsis td.dq_report_name {
     overflow-x: auto;
     box-sizing: border-box;
     scrollbar-width: thin;
+    margin-left: -20px;
+    margin-right: -20px
   }
   
   .scrollable-content::-webkit-scrollbar {

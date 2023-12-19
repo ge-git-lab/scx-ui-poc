@@ -33,4 +33,9 @@ body {
   box-sizing: border-box;
 }
 
+.mr-20 {
+  margin-left: -20px;
+  margin-right: -20px
+}
+
 

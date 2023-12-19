@@ -3,7 +3,7 @@ import '../styles/Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddDataForm from '../component/AddDataForm';
 import Header from '../component/Header'
-import { Modal, Button, Table} from 'react-bootstrap';
+import { Modal, Button, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
@@ -29,29 +29,29 @@ const CopySubsDQApproval = () => {
             console.log('Error fetching the data');
         }
     }
-    
+
 
     useEffect(() => {
         fetchDataAndSetState();
-    },[]);
+    }, []);
 
     const handleAddData = async () => {
         setShowAddForm(true);
         setEditData(null);
-      };
-    
-      const handleEditData = (data) => {
+    };
+
+    const handleEditData = (data) => {
         setEditData(data);
         setShowAddForm(true);
-      };
-    
-      const handleShow = () => {
+    };
+
+    const handleShow = () => {
         setShow(true);
-      };
-    
-      const handleClose = () => {
+    };
+
+    const handleClose = () => {
         setShow(false);
-      };
+    };
 
     //function to save a data
     const handleSaveData = async (data) => {
@@ -71,7 +71,7 @@ const CopySubsDQApproval = () => {
                 position: toast.POSITION.TOP_CENTER
             });
             fetchDataAndSetState();
-            
+
         } catch (error) {
             console.error('Error deleting data:', error.message);
         }
@@ -132,7 +132,7 @@ const CopySubsDQApproval = () => {
                 console.error('No file selected');
             }
             toast.success('Data inserted successfully!', { position: toast.POSITION.TOP_CENTER });
-            
+
         } catch (err) {
             console.error('Error exporting data:', err);
         }
@@ -165,9 +165,7 @@ const CopySubsDQApproval = () => {
 
 
     return (
-        <div className="container-fluid">
-            <div className='row'>
-                <div className='col-md-12'></div>
+        <div className='col-md-12'>
             <Header title="Copy Subs DQ Approval" />
             <div className='button-section d-flex justify-content-end mt-5'>
                 <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
@@ -193,7 +191,7 @@ const CopySubsDQApproval = () => {
                 <button type='button' className=' btn-custom btn btn-custom-download me-1' onClick={importDataInCSV}>
                     <FontAwesomeIcon icon={faDownload} className='icon-custom edit-icon' />
                 </button>
-                <button type='button' className='btn-custom btn btn-custom-delete' onClick={() => {setItemNameToDelete('All items'); setShowDeleteConfirmation(true)}}>
+                <button type='button' className='btn-custom btn btn-custom-delete' onClick={() => { setItemNameToDelete('All items'); setShowDeleteConfirmation(true) }}>
                     <FontAwesomeIcon icon={faTrash} className='icon-custom edit-icon' />
                 </button>
                 <DeleteConfirmation
@@ -245,7 +243,6 @@ const CopySubsDQApproval = () => {
                     }}
                 />
             </div>
-        </div>
         </div>
     );
 };

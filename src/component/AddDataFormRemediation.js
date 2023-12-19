@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchData } from "./Api"
 
-const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData }) => {
+const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
   // const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(editData || {
     "data_source":"",
@@ -20,7 +20,7 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData })
     "payterm":"",
     "missing_values":"",
     "processing_status":"",
-	"updated_by": ""
+	  "updated_by": ""
   }); //initialize formData with editData if provided
 
   useEffect(() => {
