@@ -36,12 +36,12 @@ const Sidebar = () => {
 
             {showSubitems && (
                 <div style={{ marginLeft: '20px' }}>
-                    <Link to="/copysubs/copysubscontactaddition" className="sidebar-link" style={{ textDecoration: 'none' }}>
+                    <Link to="/copysubs/subleveldqremediation" className="sidebar-link" style={{ textDecoration: 'none' }}>
                         <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                         <div>Subs Level DQ Remediation</div>
                     </Link>
                     <hr className="separator" />
-                    <Link to="/copysubs/subleveldqremediation" className="sidebar-link" style={{ textDecoration: 'none' }}>
+                    <Link to="/copysubs/copysubscontactaddition" className="sidebar-link" style={{ textDecoration: 'none' }}>
                         <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                         <div>Copy Subs Contact Addition</div>
                     </Link>
@@ -64,6 +64,11 @@ const Sidebar = () => {
                     <Link to="/copysubs/copysubsdqapproval" className="sidebar-link" style={{ textDecoration: 'none' }}>
                         <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                         <div>Copy Subs DQ Approval</div>
+                    </Link>
+                    <hr className="separator" />
+                    <Link to="/copysubs/copysubsdqapproval" className="sidebar-link" style={{ textDecoration: 'none' }}>
+                        <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
+                        <div>Testing Webpages</div>
                     </Link>
                 </div>
             )}

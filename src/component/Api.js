@@ -88,3 +88,16 @@ export const importData = async (endpoint, csvData) => {
     }
 };
 
+//function to call the procedure
+export const callProcedure = async (endpoint) => {
+    try {
+        const response = await axios.post(endpoint);
+        return response.data;
+        // toast.success('Data added successfully!', { position: toast.POSITION.TOP_CENTER });
+    } catch (err) {
+        console.error('Error saving data:', err);
+        toast.error('Failed to save data', { position: toast.POSITION.TOP_CENTER })
+        throw err; 
+    }
+};
+

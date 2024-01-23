@@ -5,7 +5,7 @@ import AddDataForm from '../component/AddDataForm';
 import Header from '../component/Header'
 import { Modal, Button, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
 import { fetchData, saveData, updateData, deleteData, deleteAllData, importData, exportData } from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
@@ -184,8 +184,8 @@ const CopySubsDQApproval = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <input type='file' ref={fileInputRef} accept=".csv, .xlsx" />
-                        <Button variant="primary" onClick={handleExport} className='me-1'>Import</Button>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
+                        <Button variant="primary" onClick={handleExport} title='Export Data' className='me-1'>Import</Button>
+                        <Button variant="secondary" title='Delete All' onClick={handleClose}>Close</Button>
                     </Modal.Body>
                 </Modal>
                 <button type='button' className=' btn-custom btn btn-custom-download me-1' onClick={importDataInCSV}>

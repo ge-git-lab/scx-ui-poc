@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import handleSaveData from '../pages/CopySubsDQApproval'
+import handleSaveData from '../pages/CopySubsTax'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchData } from "./Api"
 
-const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
+const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
   // const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(editData || {
-    "DATA_SOURCE":"",
+    "data_source":"",
     "subscription_id":"",
-    "scid":"",
+    "sc_id":"",
     "address_scid":"",
-    "commodity_1":"",
-    "commodity_2":"",
-    "commodity_3":"",
-    "po_email":"",
-    "rem_email":"",
-    "payterm":"",
+    "Tax_id":"",
+    "tax_classification":"",
     "missing_values":"",
     "processing_status":"",
 	  "updated_by": ""
@@ -48,7 +44,10 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
         break;
       }
     }
-     
+
+    if (isEmpty) {
+      toast.info('Please fill all the fields', { position: toast.POSITION.TOP_CENTER })
+    } else {
       if (editData) {
         // If editing existing data
         handleEditData(formData);
@@ -60,7 +59,7 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
       }
       handleClose();
       toast.success('Data saved successfully !', { position: toast.POSITION.TOP_CENTER });
-    
+    }
   };
 
   const handleEditData = async (data) => {
@@ -96,43 +95,26 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
           <Form.Group controlId="DATA_SOURCE">
             <Form.Label>DATA_SOURCE:</Form.Label>
             <Form.Control type="text" name="DATA_SOURCE" value={formData.DATA_SOURCE || ''} onChange={handleChange} />
-            {/* <Form.Control.Feedback type='invalid'>{formErrors.name}</Form.Control.Feedback> */}
           </Form.Group>
           <Form.Group controlId="subscription_id">
             <Form.Label>SUBSCRIPTION_ID:</Form.Label>
             <Form.Control type="number" name="subscription_id" value={formData.subscription_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="scid">
+          <Form.Group controlId="sc_id">
             <Form.Label>SCID:</Form.Label>
-            <Form.Control type="text" name="scid" value={formData.scid} onChange={handleChange} />
+            <Form.Control type="text" name="sc_id" value={formData.sc_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="address_scid">
+          <Form.Group controlId="scx_id">
             <Form.Label>SCX ID:</Form.Label>
-            <Form.Control type="text" name="address_scid" value={formData.address_scid} onChange={handleChange} />
+            <Form.Control type="text" name="scx_id" value={formData.scx_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="commodity_1">
-            <Form.Label>COMMODITY_1:</Form.Label>
-            <Form.Control type="text" name="commodity_1" value={formData.commodity_1} onChange={handleChange} />
+          <Form.Group controlId="tax_id">
+            <Form.Label>TAX_ID:</Form.Label>
+            <Form.Control type="text" name="tax_id" value={formData.tax_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="commodity_2">
-            <Form.Label>COMMODITY_2:</Form.Label>
-            <Form.Control type="text" name="commodity_2" value={formData.commodity_2} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="commodity_3">
-            <Form.Label>COMMODITY_3:</Form.Label>
-            <Form.Control type="text" name="commodity_3" value={formData.commodity_3} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="po_email">
-            <Form.Label>PO_EMAIL:</Form.Label>
-            <Form.Control type="text" name="po_email" value={formData.po_email} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="rem_email">
-            <Form.Label>REM_EMAIL:</Form.Label>
-            <Form.Control type="text" name="rem_email" value={formData.rem_email} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="payterm">
-            <Form.Label>PAYTERM:</Form.Label>
-            <Form.Control type="text" name="payterm" value={formData.payterm} onChange={handleChange} />
+          <Form.Group controlId="tax_classifications">
+            <Form.Label>TAX_CLASSIFICATIONS:</Form.Label>
+            <Form.Control type="text" name="tax_classifications" value={formData.tax_classifications} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="missing_values">
             <Form.Label>MISSING_VALUES:</Form.Label>
@@ -160,4 +142,4 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
   );
 };
 
-export default AddDataFormRemediation;
+export default AddDataFormTax;

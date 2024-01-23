@@ -14,8 +14,8 @@ const AppRoutes = () => {
     return (
         <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/copysubs/copysubscontactaddition" element={<SubLevelDqRemediation />} />
-            <Route path="/copysubs/subleveldqremediation" element={<CopySubsContactAddition />} />
+            <Route path="/copysubs/subleveldqremediation" element={<SubLevelDqRemediation />} />
+            <Route path="/copysubs/copysubscontactaddition" element={<CopySubsContactAddition />} />
             <Route path="/copysubs/copysubsbankaddition" element={<CopySubsBankAddition />} />
             <Route path="/copysubs/copysubstax" element={<CopySubsTax />} />
             <Route path="/copysubs/copysubsscopedetails" element={<CopySubsScopeDetails />} />

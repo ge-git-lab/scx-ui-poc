@@ -5,9 +5,9 @@ import AddDataFormRemediation from '../component/AddDataFormRemediation';
 import { Modal, Button, Table } from 'react-bootstrap';
 import Header from '../component/Header';
 import { toast } from 'react-toastify';
-import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
-import { fetchData, saveData, updateData, deleteData, deleteAllData, importData, exportData } from "../component/Api"
+import { fetchData, saveData, deleteData, deleteAllData, importData, exportData, callProcedure } from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
 
 const SubLevelDqRemediation = () => {
@@ -156,12 +156,26 @@ const SubLevelDqRemediation = () => {
     }
   };
 
+  const handleProcedure = async () => {
+    try {
+      const result = await callProcedure('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/call-procedure');
+      fetchDataAndSetState();
+      console.log(result)
+      toast.success('Procedure called successfully !', { position: toast.POSITION.TOP_CENTER });
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  }
+
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
       <Header title="Sub Level DQ Remediation" />
       <div className='button-section  mt-5 d-flex justify-content-end'>
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
+        </button>
+        <button type='button' title='Update Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleProcedure}>
+          <FontAwesomeIcon icon={faSync} className='icon-custom edit-icon' />
         </button>
         <button type='button' title='Import Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleShow}>
           <FontAwesomeIcon icon={faUpload} className='icon-custom edit-icon' />
@@ -180,10 +194,10 @@ const SubLevelDqRemediation = () => {
             <Button variant="secondary" onClick={handleClose}>Close</Button>
           </Modal.Body>
         </Modal>
-        <button type='button' className=' btn-custom btn btn-custom-download me-1' onClick={importDataInCSV}>
+        <button type='button' title='Export Data' className=' btn-custom btn btn-custom-download me-1' onClick={importDataInCSV}>
           <FontAwesomeIcon icon={faDownload} className='icon-custom edit-icon' />
         </button>
-        <button type='button' className='btn-custom btn btn-custom-delete' onClick={() => { setItemNameToDelete('All items'); setShowDeleteConfirmation(true) }}>
+        <button type='button' title='Delete All' className='btn-custom btn btn-custom-delete' onClick={() => { setItemNameToDelete('All items'); setShowDeleteConfirmation(true) }}>
           <FontAwesomeIcon icon={faTrash} className='icon-custom edit-icon' />
         </button>
         <DeleteConfirmation
@@ -198,37 +212,30 @@ const SubLevelDqRemediation = () => {
           <table className="table table-striped dsp-custom-table">
             <thead>
               <tr>
-                <th scope="col">ACTION</th>
-                <th scope="col">DATA_SOURCE</th>
-                <th scope="col">SUBSCRIPTION_ID</th>
+                
+                <th scope="col">DATA&nbsp;SOURCE</th>
+                <th scope="col">SUBSCRIPTION&nbsp;ID</th>
                 <th scope="col">SCID</th>
-                <th scope="col">SCX_ID</th>
-                <th scope="col">COMMODITY_1</th>
-                <th scope="col">COMMODITY_2</th>
-                <th scope="col">COMMODITY_3</th>
-                <th scope="col">PO_EMAIL</th>
-                <th scope="col">REM_EMAIL</th>
+                <th scope="col">SCX&nbsp;ID</th>
+                <th scope="col">COMMODITY&nbsp;1</th>
+                <th scope="col">COMMODITY&nbsp;2</th>
+                <th scope="col">COMMODITY&nbsp;3</th>
+                <th scope="col">PO&nbsp;EMAIL</th>
+                <th scope="col">REM&nbsp;EMAIL</th>
                 <th scope="col">PAYTERM</th>
-                <th scope="col">MISSING_VALUES</th>
-                <th scope="col">PROCESSING_STATUS</th>
+                <th scope="col">MISSING&nbsp;VALUES</th>
+                <th scope="col">PROCESSING&nbsp;STATUS</th>
                 <th scope="col">AUTHOR</th>
+                <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
               {SubLevelDqRemediationData.map((item) => (
                 <tr className='dsp-ellipsis' key={item.subscription_id}>
-                  <td>
-                    <button type='button' className='btn-warning remove-border-icon me-3' onClick={() => handleEditData(item)}>
-                      <FontAwesomeIcon icon={faPen} className='edit-icon' />
-                    </button>
-                    <button type='button' className='btn-danger remove-border-icon' onClick={() => handleDeleteData(item.id)}>
-                      <FontAwesomeIcon className='delete-icon' icon={faTrashAlt} />
-                    </button>
-                  </td>
                   <td title={item.data_source}>{item.data_source}</td>
                   <td title={item.subscription_id}>{item.subscription_id}</td>
-                  <td title={item.sc_id}>{item.sc_id}</td>
-                  <td title={item.scx_id}>{item.scx_id}</td>
+                  <td title={item.scid}>{item.scid}</td>
+                  <td title={item.address_scid}>{item.address_scid}</td>
                   <td title={item.commodity_1}>{item.commodity_1}</td>
                   <td title={item.commodity_2}>{item.commodity_2}</td>
                   <td title={item.commodity_3}>{item.commodity_3}</td>
@@ -238,6 +245,15 @@ const SubLevelDqRemediation = () => {
                   <td title={item.missing_values}>{item.missing_values}</td>
                   <td title={item.processing_status}>{item.processing_status}</td>
                   <td title={item.updated_by}>{item.updated_by}</td>
+                 
+                  <td>
+                    <button type='button' className='btn-warning remove-border-icon me-3' onClick={() => handleEditData(item)}>
+                      <FontAwesomeIcon icon={faPen} className='edit-icon' />
+                    </button>
+                    <button type='button' className='btn-danger remove-border-icon' onClick={() => handleDeleteData(item.id)}>
+                      <FontAwesomeIcon className='delete-icon' icon={faTrashAlt} />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
