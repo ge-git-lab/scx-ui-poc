@@ -232,7 +232,7 @@ const SubLevelDqRemediation = () => {
             <tbody>
               {SubLevelDqRemediationData.map((item) => (
                 <tr className='dsp-ellipsis' key={item.subscription_id}>
-                  <td title={item.data_source}>{item.data_source}</td>
+                  <td title={item.DATA_SOURCE}>{item.DATA_SOURCE}</td>
                   <td title={item.subscription_id}>{item.subscription_id}</td>
                   <td title={item.scid}>{item.scid}</td>
                   <td title={item.address_scid}>{item.address_scid}</td>
