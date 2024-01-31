@@ -1,32 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AddDataFormRemediation from '../component/AddDataFormRemediation';
+import AddDataFormBucAddition from '../component/AddDataFormBucAddition';
 import { Modal, Button, Table } from 'react-bootstrap';
 import Header from '../component/Header';
 import { toast } from 'react-toastify';
-import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
 import { fetchData, saveData, deleteData, deleteAllData, importData, exportData, callProcedure } from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
 
-const SubLevelDqRemediation = () => {
-  const [SubLevelDqRemediationData, setSubLevelDqRemediationData] = useState([]);
+const CopySubsBucAddition = () => {
+  const [CopySubsBucAdditionData, setCopySubsBucAdditionData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const fileInputRef = useRef(null);
   const [show, setShow] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [itemNameToDelete, setItemNameToDelete] = useState('');
-
+  
   //to fetch the data from backend 
   const fetchDataAndSetState = async () => {
-    try {
-      const result = await fetchData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition');
-      setSubLevelDqRemediationData(result);
-    } catch (error) {
-      console.log('Error fetching the data');
-    }
+      try {
+        const result = await fetchData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition');
+        setCopySubsBucAdditionData(result);
+      } catch (error) {
+        console.log('Error fetching the data');
+      }
   }
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const SubLevelDqRemediation = () => {
   //function to save a data
   const handleSaveData = async (data) => {
     try {
-      await saveData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition', data);
+      await saveData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition', data);
       fetchDataAndSetState();
     } catch (error) {
       console.error('Error saving data:', error);
@@ -64,7 +64,7 @@ const SubLevelDqRemediation = () => {
   //to delete a single item
   const handleDeleteData = async (idToDelete) => {
     try {
-      const result = await deleteData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition', idToDelete)
+      const result = await deleteData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition', idToDelete)
       console.log(result)
       if (result.status === 200) {
         toast.success('Deleted all data successfully!', {
@@ -88,7 +88,7 @@ const SubLevelDqRemediation = () => {
     const csvLink = document.createElement('a');
     csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
     csvLink.target = '_blank';
-    csvLink.download = 'dq_remediation_data.csv';
+    csvLink.download = 'copy_subs_buc_addition.csv';
     csvLink.click();
     fetchDataAndSetState();
     toast.success('Data imported successfully!', {
@@ -98,7 +98,7 @@ const SubLevelDqRemediation = () => {
   // to hadle the import data from db
   const handleImport = async () => {
     try {
-      const response = await exportData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/dqremimpexp');
+      const response = await exportData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition/importexport');
       const csvData = response;
       return csvData;
       //Process the csv data as needed 
@@ -118,16 +118,17 @@ const SubLevelDqRemediation = () => {
 
         fileReader.onload = () => {
           const csvData = fileReader.result;
-          importData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/dqremimpexp', csvData);
+          console.log(csvData)
+          importData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition/importexport', csvData);
         }
         fileReader.readAsText(file);
         setShow(false);
-        fetchDataAndSetState();
+        // fetchDataAndSetState();
       } else {
         console.error('No file selected');
       }
       toast.success('Data inserted successfully!', { position: toast.POSITION.TOP_CENTER });
-
+      fetchDataAndSetState();
     } catch (err) {
       console.error('Error exporting data:', err);
     }
@@ -136,10 +137,7 @@ const SubLevelDqRemediation = () => {
   // to delete all the data 
   const handleDeleteAll = async () => {
     try {
-      const response = await deleteAllData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/dqremimpexp', {
-        method: 'DELETE',
-        'Content-Type': 'application/json'
-      });
+      const response = await deleteAllData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition/importexport', {});
 
       if (response.status === 200) {
         toast.success('Deleted all data successfully!', {
@@ -156,12 +154,23 @@ const SubLevelDqRemediation = () => {
     }
   };
 
-  const handleProcedure = async () => {
+  const handleUpdateProcedure = async () => {
     try {
-      const result = await callProcedure('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/call-procedure');
+      const result = await callProcedure('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition/updateProcedure');
       fetchDataAndSetState();
       console.log(result)
-      toast.success('Procedure called successfully !', { position: toast.POSITION.TOP_CENTER });
+      toast.success('Updated procedure successfully !', { position: toast.POSITION.TOP_CENTER });
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  }
+
+  const handleValidateProcedure = async () => {
+    try {
+      const result = await callProcedure('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition/validateProcedure');
+      fetchDataAndSetState();
+      console.log(result)
+      toast.success('Staged procedure successfully !', { position: toast.POSITION.TOP_CENTER });
     } catch (error) {
       console.error('Error saving data:', error);
     }
@@ -169,13 +178,16 @@ const SubLevelDqRemediation = () => {
 
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
-      <Header title="Sub Level DQ Remediation" />
+      <Header title="Copy Subs Buc Addition" />
       <div className='button-section  mt-5 d-flex justify-content-end'>
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
         </button>
-        <button type='button' title='Update Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleProcedure}>
+        <button type='button' title='Update Procedure' className='btn-custom btn btn-custom-upload me-1' onClick={handleUpdateProcedure}>
           <FontAwesomeIcon icon={faSync} className='icon-custom edit-icon' />
+        </button>
+        <button type='button' title='Validate Procedure' className='btn-custom btn btn-custom-upload me-1' onClick={handleValidateProcedure}>
+          <FontAwesomeIcon icon={faDatabase} className='icon-custom edit-icon' />
         </button>
         <button type='button' title='Import Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleShow}>
           <FontAwesomeIcon icon={faUpload} className='icon-custom edit-icon' />
@@ -212,40 +224,26 @@ const SubLevelDqRemediation = () => {
           <table className="table table-striped dsp-custom-table">
             <thead>
               <tr>
-                
                 <th scope="col">DATA&nbsp;SOURCE</th>
                 <th scope="col">SUBSCRIPTION&nbsp;ID</th>
                 <th scope="col">SCID</th>
                 <th scope="col">SCX&nbsp;ID</th>
-                <th scope="col">COMMODITY&nbsp;1</th>
-                <th scope="col">COMMODITY&nbsp;2</th>
-                <th scope="col">COMMODITY&nbsp;3</th>
-                <th scope="col">PO&nbsp;EMAIL</th>
-                <th scope="col">REM&nbsp;EMAIL</th>
-                <th scope="col">PAYTERM</th>
-                <th scope="col">MISSING&nbsp;VALUES</th>
+                <th scope="col">BUC</th>
                 <th scope="col">PROCESSING&nbsp;STATUS</th>
                 <th scope="col">AUTHOR</th>
                 <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
-              {SubLevelDqRemediationData.map((item) => (
+              {CopySubsBucAdditionData.map((item) => (
                 <tr className='dsp-ellipsis' key={item.subscription_id}>
                   <td title={item.data_source}>{item.data_source}</td>
                   <td title={item.subscription_id}>{item.subscription_id}</td>
                   <td title={item.scid}>{item.scid}</td>
                   <td title={item.address_scid}>{item.address_scid}</td>
-                  <td title={item.commodity_1}>{item.commodity_1}</td>
-                  <td title={item.commodity_2}>{item.commodity_2}</td>
-                  <td title={item.commodity_3}>{item.commodity_3}</td>
-                  <td title={item.po_email}>{item.po_email}</td>
-                  <td title={item.rem_email}>{item.rem_email}</td>
-                  <td title={item.payterm}>{item.payterm}</td>
-                  <td title={item.missing_values}>{item.missing_values}</td>
+                  <td title={item.buc}>{item.buc}</td>
                   <td title={item.processing_status}>{item.processing_status}</td>
                   <td title={item.updated_by}>{item.updated_by}</td>
-                 
                   <td>
                     <button type='button' className='btn-warning remove-border-icon me-3' onClick={() => handleEditData(item)}>
                       <FontAwesomeIcon icon={faPen} className='edit-icon' />
@@ -258,7 +256,7 @@ const SubLevelDqRemediation = () => {
               ))}
             </tbody>
           </table>
-          <AddDataFormRemediation
+          <AddDataFormBucAddition
             show={showAddForm}
             editData={editData}
             handleSaveData={handleSaveData}
@@ -273,4 +271,4 @@ const SubLevelDqRemediation = () => {
   );
 };
 
-export default SubLevelDqRemediation;
+export default CopySubsBucAddition;

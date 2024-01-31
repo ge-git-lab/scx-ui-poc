@@ -8,15 +8,15 @@ import { fetchData } from "./Api"
 const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
   // const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(editData || {
-    "data_source":"",
-    "subscription_id":"",
-    "sc_id":"",
-    "address_scid":"",
-    "Tax_id":"",
-    "tax_classification":"",
-    "missing_values":"",
-    "processing_status":"",
-	  "updated_by": ""
+    "data_source": "",
+    "subscription_id": "",
+    "sc_id": "",
+    "address_scid": "",
+    "Tax_id": "",
+    "tax_classification": "",
+    "missing_values": "",
+    "processing_status": "",
+    "updated_by": ""
   }); //initialize formData with editData if provided
 
   useEffect(() => {
@@ -45,27 +45,24 @@ const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchData
       }
     }
 
-    if (isEmpty) {
-      toast.info('Please fill all the fields', { position: toast.POSITION.TOP_CENTER })
+    if (editData) {
+      // If editing existing data
+      handleEditData(formData);
+      setFormData({});
     } else {
-      if (editData) {
-        // If editing existing data
-        handleEditData(formData);
-        setFormData({});
-      } else {
-        // If adding new data
-        handleSaveData(formData);
-        setFormData({});
-      }
-      handleClose();
-      toast.success('Data saved successfully !', { position: toast.POSITION.TOP_CENTER });
+      // If adding new data
+      handleSaveData(formData);
+      setFormData({});
     }
+    handleClose();
+    toast.success('Data saved successfully !', { position: toast.POSITION.TOP_CENTER });
+
   };
 
   const handleEditData = async (data) => {
     try {
       // Make the PUT request to update existing data
-      const response = await fetch(`https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/${editData.id}`, {
+      const response = await fetch(`https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax/${editData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,21 +97,21 @@ const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchData
             <Form.Label>SUBSCRIPTION_ID:</Form.Label>
             <Form.Control type="number" name="subscription_id" value={formData.subscription_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="sc_id">
+          <Form.Group controlId="scid">
             <Form.Label>SCID:</Form.Label>
-            <Form.Control type="text" name="sc_id" value={formData.sc_id} onChange={handleChange} />
+            <Form.Control type="text" name="scid" value={formData.scid} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="scx_id">
+          <Form.Group controlId="address_scid">
             <Form.Label>SCX ID:</Form.Label>
-            <Form.Control type="text" name="scx_id" value={formData.scx_id} onChange={handleChange} />
+            <Form.Control type="text" name="address_scid" value={formData.address_scid} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="tax_id">
             <Form.Label>TAX_ID:</Form.Label>
             <Form.Control type="text" name="tax_id" value={formData.tax_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="tax_classifications">
+          <Form.Group controlId="tax_classification">
             <Form.Label>TAX_CLASSIFICATIONS:</Form.Label>
-            <Form.Control type="text" name="tax_classifications" value={formData.tax_classifications} onChange={handleChange} />
+            <Form.Control type="text" name="tax_classification" value={formData.tax_classifications} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="missing_values">
             <Form.Label>MISSING_VALUES:</Form.Label>

@@ -9,6 +9,7 @@ import CopySubsTax from '../pages/CopySubsTax';
 import CopySubsBankAddition from '../pages/CopySubsBankAddition';
 import CopySubsScopeDetails from '../pages/CopySubsScopeDetails';
 import CopySubsDQApproval from '../pages/CopySubsDQApproval';
+import CopySubsBucAddition from '../pages/CopySubsBucAddition';
 
 const AppRoutes = () => {
     return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
             <Route path="/copysubs/copysubstax" element={<CopySubsTax />} />
             <Route path="/copysubs/copysubsscopedetails" element={<CopySubsScopeDetails />} />
             <Route path="/copysubs/copysubsdqapproval" element={<CopySubsDQApproval />} />
+            <Route path="/copysubs/copysubsbucaddition" element={<CopySubsBucAddition />} />
         </Routes>
     );
 };

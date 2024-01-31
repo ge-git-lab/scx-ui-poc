@@ -7,7 +7,7 @@ import Header from '../component/Header';
 import { toast } from 'react-toastify';
 import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
-import { fetchData, saveData, deleteData, deleteAllData, importData, exportData } from "../component/Api"
+import { fetchData, saveData, deleteData, deleteAllData, importData, exportData, callProcedure } from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
 
 const CopySubsTax = () => {
@@ -22,7 +22,7 @@ const CopySubsTax = () => {
   //to fetch the data from backend 
   const fetchDataAndSetState = async () => {
     try {
-      const result = await fetchData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition');
+      const result = await fetchData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax');
       setCopySubsTaxData(result);
     } catch (error) {
       console.log('Error fetching the data');
@@ -54,7 +54,7 @@ const CopySubsTax = () => {
   //function to save a data
   const handleSaveData = async (data) => {
     try {
-      await saveData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition', data);
+      await saveData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax', data);
       fetchDataAndSetState();
     } catch (error) {
       console.error('Error saving data:', error);
@@ -64,7 +64,7 @@ const CopySubsTax = () => {
   //to delete a single item
   const handleDeleteData = async (idToDelete) => {
     try {
-      const result = await deleteData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition', idToDelete)
+      const result = await deleteData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax', idToDelete)
       console.log(result)
       if (result.status === 200) {
         toast.success('Deleted all data successfully!', {
@@ -88,7 +88,7 @@ const CopySubsTax = () => {
     const csvLink = document.createElement('a');
     csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
     csvLink.target = '_blank';
-    csvLink.download = 'dq_remediation_data.csv';
+    csvLink.download = 'copy_subs_tax.csv';
     csvLink.click();
     fetchDataAndSetState();
     toast.success('Data imported successfully!', {
@@ -98,7 +98,7 @@ const CopySubsTax = () => {
   // to hadle the import data from db
   const handleImport = async () => {
     try {
-      const response = await exportData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/dqremimpexp');
+      const response = await exportData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax/importexport');
       const csvData = response;
       return csvData;
       //Process the csv data as needed 
@@ -118,7 +118,7 @@ const CopySubsTax = () => {
 
         fileReader.onload = () => {
           const csvData = fileReader.result;
-          importData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/dqremimpexp', csvData);
+          importData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax/importexport', csvData);
         }
         fileReader.readAsText(file);
         setShow(false);
@@ -136,7 +136,7 @@ const CopySubsTax = () => {
   // to delete all the data 
   const handleDeleteAll = async () => {
     try {
-      const response = await deleteAllData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/dqremimpexp', {
+      const response = await deleteAllData('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax/importexport', {
         method: 'DELETE',
         'Content-Type': 'application/json'
       });
@@ -156,6 +156,17 @@ const CopySubsTax = () => {
     }
   };
 
+  const handleProcedure = async () => {
+    try {
+      const result = await callProcedure('https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspcopysubstax/call-procedure');
+      fetchDataAndSetState();
+      console.log(result)
+      toast.success('Procedure called successfully !', { position: toast.POSITION.TOP_CENTER });
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  }
+
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
       <Header title="Copy Subs Tax Id & Tax Classifications Correction" />
@@ -163,7 +174,7 @@ const CopySubsTax = () => {
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
         </button>
-        <button type='button' title='Update Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleShow}>
+        <button type='button' title='Update Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleProcedure}>
           <FontAwesomeIcon icon={faSync} className='icon-custom edit-icon' />
         </button>
         <button type='button' title='Import Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleShow}>
@@ -171,7 +182,7 @@ const CopySubsTax = () => {
         </button>
         {/* Modal to attach the file for importing data */}
         <Modal
-          show={show}
+          show={show} 
           onHide={handleClose}
           contentLabel="File Attachment Modal">
           <Modal.Header closeButton>
@@ -218,10 +229,10 @@ const CopySubsTax = () => {
                 <tr className='dsp-ellipsis' key={item.subscription_id}>
                   <td title={item.data_source}>{item.data_source}</td>
                   <td title={item.subscription_id}>{item.subscription_id}</td>
-                  <td title={item.sc_id}>{item.sc_id}</td>
-                  <td title={item.scx_id}>{item.scx_id}</td>
+                  <td title={item.scid}>{item.scid}</td>
+                  <td title={item.address_scid}>{item.address_scid}</td>
                   <td title={item.tax_id}>{item.tax_id}</td>
-                  <td title={item.tax_classifications}>{item.tax_classifications}</td>
+                  <td title={item.tax_classification}>{item.tax_classification}</td>
                   <td title={item.missing_values}>{item.missing_values}</td>
                   <td title={item.processing_status}>{item.processing_status}</td>
                   <td title={item.updated_by}>{item.updated_by}</td>

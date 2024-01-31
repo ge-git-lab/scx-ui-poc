@@ -3,24 +3,17 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import handleSaveData from '../pages/CopySubsDQApproval'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchData } from "./Api"
+// import { fetchData } from "./Api"
 
-const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
+const AddDataFormBucAddition = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
   // const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(editData || {
-    "DATA_SOURCE":"",
+    "data_source":"",
     "subscription_id":"",
     "scid":"",
     "address_scid":"",
-    "commodity_1":"",
-    "commodity_2":"",
-    "commodity_3":"",
-    "po_email":"",
-    "rem_email":"",
-    "payterm":"",
-    "missing_values":"",
+    "buc":"",
     "processing_status":"",
-	  "updated_by": ""
   }); //initialize formData with editData if provided
 
   useEffect(() => {
@@ -66,7 +59,7 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
   const handleEditData = async (data) => {
     try {
       // Make the PUT request to update existing data
-      const response = await fetch(`https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dspdqremedition/${editData.id}`, {
+      const response = await fetch(`https://t2635htwi8.execute-api.us-east-1.amazonaws.com/scx-dq-rem/dsp-copysubsbucaddition/${editData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +86,7 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="data_source">
+          <Form.Group controlId="DATA_SOURCE">
             <Form.Label>DATA_SOURCE:</Form.Label>
             <Form.Control type="text" name="data_source" value={formData.data_source || ''} onChange={handleChange} />
             {/* <Form.Control.Feedback type='invalid'>{formErrors.name}</Form.Control.Feedback> */}
@@ -110,33 +103,9 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
             <Form.Label>SCX ID:</Form.Label>
             <Form.Control type="text" name="address_scid" value={formData.address_scid} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="commodity_1">
-            <Form.Label>COMMODITY_1:</Form.Label>
-            <Form.Control type="text" name="commodity_1" value={formData.commodity_1} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="commodity_2">
-            <Form.Label>COMMODITY_2:</Form.Label>
-            <Form.Control type="text" name="commodity_2" value={formData.commodity_2} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="commodity_3">
-            <Form.Label>COMMODITY_3:</Form.Label>
-            <Form.Control type="text" name="commodity_3" value={formData.commodity_3} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="po_email">
-            <Form.Label>PO_EMAIL:</Form.Label>
-            <Form.Control type="text" name="po_email" value={formData.po_email} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="rem_email">
-            <Form.Label>REM_EMAIL:</Form.Label>
-            <Form.Control type="text" name="rem_email" value={formData.rem_email} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="payterm">
-            <Form.Label>PAYTERM:</Form.Label>
-            <Form.Control type="text" name="payterm" value={formData.payterm} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="missing_values">
-            <Form.Label>MISSING_VALUES:</Form.Label>
-            <Form.Control type="text" name="missing_values" value={formData.missing_values} onChange={handleChange} />
+          <Form.Group controlId="buc">
+            <Form.Label>BUC:</Form.Label>
+            <Form.Control type="text" name="buc" value={formData.buc} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="processing_status">
             <Form.Label>PROCESSING_STATUS:</Form.Label>
@@ -160,4 +129,4 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
   );
 };
 
-export default AddDataFormRemediation;
+export default AddDataFormBucAddition;
