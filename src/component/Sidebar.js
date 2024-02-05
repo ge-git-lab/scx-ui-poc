@@ -74,7 +74,7 @@ const Sidebar = () => {
                 Ref Data Top Side Update
             </Link>
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
+            <Link to="/refdataincotermlookup" className="sidebar-link">
                 {/* <FaBook className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                 Reference Data: IncoTerms Lookup
