@@ -91,7 +91,7 @@ const SubLevelDqRemediation = () => {
     csvLink.download = 'dq_remediation_data.csv';
     csvLink.click();
     fetchDataAndSetState();
-    toast.success('Data imported successfully!', {
+    toast.success('Data exported successfully!', {
       position: toast.POSITION.TOP_CENTER
     });
   };

@@ -56,11 +56,6 @@ const Sidebar = () => {
                         <div>Copy Subs Tax</div>
                     </Link>
                     <hr className="separator" />
-                    <Link to="/copysubs/copysubsscopedetails" className="sidebar-link" style={{ textDecoration: 'none' }}>
-                        <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                        <div>Copy Subs Scope Details</div>
-                    </Link>
-                    <hr className="separator" />
                     <Link to="/copysubs/copysubsdqapproval" className="sidebar-link" style={{ textDecoration: 'none' }}>
                         <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                         <div>Copy Subs DQ Approval</div>

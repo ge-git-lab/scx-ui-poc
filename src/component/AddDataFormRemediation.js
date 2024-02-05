@@ -96,7 +96,6 @@ const AddDataFormRemediation = ({ show, handleSaveData, handleClose, editData, f
           <Form.Group controlId="data_source">
             <Form.Label>DATA_SOURCE:</Form.Label>
             <Form.Control type="text" name="data_source" value={formData.data_source || ''} onChange={handleChange} />
-            {/* <Form.Control.Feedback type='invalid'>{formErrors.name}</Form.Control.Feedback> */}
           </Form.Group>
           <Form.Group controlId="subscription_id">
             <Form.Label>SUBSCRIPTION_ID:</Form.Label>
