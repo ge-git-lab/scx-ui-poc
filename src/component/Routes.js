@@ -10,6 +10,7 @@ import CopySubsBankAddition from '../pages/CopySubsBankAddition';
 import CopySubsDQApproval from '../pages/CopySubsDQApproval';
 import CopySubsBucAddition from '../pages/CopySubsBucAddition';
 import RefDataIncotermsLookup from '../pages/RefDataIncotermsLookup';
+import TpsAgreementSitesLookup from '../pages/TpsAgreementSitesLookup';
 
 const AppRoutes = () => {
     return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
             <Route path="/copysubs/copysubsdqapproval" element={<CopySubsDQApproval />} />
             <Route path="/copysubs/copysubsbucaddition" element={<CopySubsBucAddition />} />
             <Route exact path="/refdataincotermlookup" element={<RefDataIncotermsLookup />} />
+            <Route exact path="/tpsagreementsiteslookup" element={<TpsAgreementSitesLookup />} />
         </Routes>
     );
 };

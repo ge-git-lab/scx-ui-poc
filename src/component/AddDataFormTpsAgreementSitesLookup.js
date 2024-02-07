@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import handleSaveData from '../pages/CopySubsTax'
+import handleSaveData from '../pages/TpsAgreementSitesLookup'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchData } from "./Api"
 
-const AddDataFormRefDataIncotermLookup = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
+const AddDataFormTpsAgreementSitesLookup = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
   // const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(editData || {
-    "zsource": "",
-    "Erp Term": "",
-    "Erp Name": "",
-    "SCX Term": "",
-    "SCX Name": "",
-    "addedby": "",
-    "addedon": "",
-    "changedby": "",
-    "changedon": "",
+    "data_source": "",
+    "org_id": "",
+    "gsl6": "",
+    "gsl": "",
+    "tps_agreement": "",
+    "discount_funding_model": ""
   }); //initialize formData with editData if provided
 
   useEffect(() => {
@@ -62,7 +59,7 @@ const AddDataFormRefDataIncotermLookup = ({ show, handleSaveData, handleClose, e
   const handleEditData = async (data) => {
     try {
       // Make the PUT request to update existing data
-      const response = await fetch(`https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/${editData.id}`, {
+      const response = await fetch(`https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup/${editData.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -89,41 +86,29 @@ const AddDataFormRefDataIncotermLookup = ({ show, handleSaveData, handleClose, e
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="DATA_SOURCE">
+          <Form.Group controlId="DATA&nbsp;SOURCE">
             <Form.Label>DATA&nbsp;SOURCE:</Form.Label>
-            <Form.Control type="text" name="zsource" value={formData.zsource || ''} onChange={handleChange} />
+            <Form.Control type="text" name="data_source" value={formData.data_source || ''} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="ERP Term">
-            <Form.Label>ERP&nbsp;TERM:</Form.Label>
-            <Form.Control type="number" name="ERP Term" value={formData['ERP Term']} onChange={handleChange} />
+          <Form.Group controlId="ORG&nbsp;ID">
+            <Form.Label>ORG&nbsp;ID:</Form.Label>
+            <Form.Control type="number" name="ORG ID" value={formData.org_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="ERP Name">
-            <Form.Label>ERP&nbsp;NAME:</Form.Label>
-            <Form.Control type="text" name="ERP Name" value={formData['ERP Name']} onChange={handleChange} />
+          <Form.Group controlId="GSL6">
+            <Form.Label>GSL6:</Form.Label>
+            <Form.Control type="text" name="GSL6" value={formData.gsl6} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="SCX Term">
-            <Form.Label>SCX&nbsp;TERM:</Form.Label>
-            <Form.Control type="text" name="SCX Term" value={formData['SCX Term']} onChange={handleChange} />
+          <Form.Group controlId="GSL">
+            <Form.Label>GSL:</Form.Label>
+            <Form.Control type="text" name="GSL" value={formData.gsl} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="SCX Name">
-            <Form.Label>SCX&nbsp;NAME:</Form.Label>
-            <Form.Control type="text" name="SCX Name" value={formData['SCX Name']} onChange={handleChange} />
+          <Form.Group controlId="TPS&nbsp;AGREEMENT">
+            <Form.Label>TPS&nbsp;AGREEMENT:</Form.Label>
+            <Form.Control type="text" name="TPS&nbsp;AGREEMENT" value={formData.tps_agreement} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="addedby">
-            <Form.Label>ADDED&nbsp;BY:</Form.Label>
-            <Form.Control type="text" name="addedby" value={formData.addedby} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="addedon">
-            <Form.Label>ADDED&nbsp;ON:</Form.Label>
-            <Form.Control type="text" name="addedon" value={formData.addedon} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="changedby">
-            <Form.Label>CHANGED&nbsp;BY:</Form.Label>
-            <Form.Control type="text" name="changedby" value={formData.changedby} onChange={handleChange} />
-          </Form.Group>
-          <Form.Group controlId="changedon">
-            <Form.Label>CHANGED&nbsp;ON:</Form.Label>
-            <Form.Control type="text" name="changedon" value={formData.changedon} onChange={handleChange} />
+          <Form.Group controlId="DISCOUNT&nbsp;FUNDING&nbsp;MODEL">
+            <Form.Label>DISCOUNT&nbsp;FUNDING&nbsp;MODEL:</Form.Label>
+            <Form.Control type="text" name="discount_funding_model" value={formData.discount_funding_model} onChange={handleChange} />
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -139,4 +124,4 @@ const AddDataFormRefDataIncotermLookup = ({ show, handleSaveData, handleClose, e
   );
 };
 
-export default AddDataFormRefDataIncotermLookup;
+export default AddDataFormTpsAgreementSitesLookup;

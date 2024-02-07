@@ -17,21 +17,17 @@ const Sidebar = () => {
                 <h4>SupplierConnect</h4>
             </div>
             <Link to="/" className="sidebar-link">
-                {/* <FaHome className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />
                 Home
             </Link>
             <hr className="separator" />
-            {/* <div to="/item1" className="sidebar-link"> */}
-                {/* <FaBook className="sidebar-icon" /> */}
-                <div className="sidebar-link" onClick={handleItemClick} style={{ cursor: 'pointer' }}>
-                    {showSubitems ? (
-                      <FontAwesomeIcon icon={faAngleDown} style={{ marginRight: '5px' }} />
-                    ) : (
-                      <FontAwesomeIcon icon={faAngleRight} style={{ marginRight: '5px' }} />
+            <div className="sidebar-link" onClick={handleItemClick} style={{ cursor: 'pointer' }}>
+                {showSubitems ? (
+                    <FontAwesomeIcon icon={faAngleDown} style={{ marginRight: '5px' }} />
+                ) : (
+                        <FontAwesomeIcon icon={faAngleRight} style={{ marginRight: '5px' }} />
                     )}
         Copy Subs Project
-        {/* </div> */}
             </div>
 
             {showSubitems && (
@@ -68,53 +64,40 @@ const Sidebar = () => {
                 </div>
             )}
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
+            <Link to="/tpsagreementsiteslookup" className="sidebar-link">
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                Ref Data Top Side Update
+                TPS Agreement Sites Lookup Page
             </Link>
             <hr className="separator" />
             <Link to="/refdataincotermlookup" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                 Reference Data: IncoTerms Lookup
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
-               <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
+                <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                 Gold/BUC/Branch Top side update
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                GSL6 and GSL9 Merge	
+                GSL6 and GSL9 Merge
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                 Fyi approvals
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                 Gold BUC Info
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
                 Update TaxId
             </Link>
-            <hr className="separator" />
-            <Link to="/" className="sidebar-link">
-                {/* <FaBook className="sidebar-icon" /> */}
-                <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                Matching /Grouping
-            </Link>
-            <hr className="separator" />
             {/* Add more sidebar links as needed */}
         </nav>
     );

@@ -8,10 +8,10 @@ import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from
 import '../styles/CopySubsProject.css';
 import { fetchData, saveData, deleteData, deleteAllData, importData, exportData} from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
-import AddDataFormRefDataIncotermLookup from '../component/AddDataFormRefDataIncotermLookup';
+import AddDataFormTpsAgreementSitesLookup from '../component/AddDataFormTpsAgreementSitesLookup';
 
-const RefDataIncotermsLookup = () => {
-  const [RefDataIncotermLookupData, setRefDataIncotermLookupData] = useState([]);
+const TpsAgreementSitesLookup = () => {
+  const [TpsAgreementSitesLookupData, setTpsAgreementSitesLookupData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const fileInputRef = useRef(null);
@@ -22,8 +22,8 @@ const RefDataIncotermsLookup = () => {
   //to fetch the data from backend 
   const fetchDataAndSetState = async () => {
     try {
-      const result = await fetchData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup');
-      setRefDataIncotermLookupData(result);
+      const result = await fetchData('https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup');
+      setTpsAgreementSitesLookupData(result);
     } catch (error) {
       console.log('Error fetching the data');
     }
@@ -54,7 +54,7 @@ const RefDataIncotermsLookup = () => {
   //function to save a data
   const handleSaveData = async (data) => {
     try {
-      await saveData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup', data);
+      await saveData('https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup', data);
       fetchDataAndSetState();
     } catch (error) {
       console.error('Error saving data:', error);
@@ -64,7 +64,7 @@ const RefDataIncotermsLookup = () => {
   //to delete a single item
   const handleDeleteData = async (idToDelete) => {
     try {
-      const result = await deleteData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup', idToDelete)
+      const result = await deleteData('https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup', idToDelete)
       console.log(result)
       if (result.status === 200) {
         toast.success('Deleted all data successfully!', {
@@ -88,7 +88,7 @@ const RefDataIncotermsLookup = () => {
     const csvLink = document.createElement('a');
     csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
     csvLink.target = '_blank';
-    csvLink.download = 'reference_data_incoterm_lookup.csv';
+    csvLink.download = 'tps_agreement_sites_lookup.csv';
     csvLink.click();
     fetchDataAndSetState();
     toast.success('Data imported successfully!', {
@@ -98,7 +98,7 @@ const RefDataIncotermsLookup = () => {
   // to hadle the import data from db
   const handleImport = async () => {
     try {
-      const response = await exportData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/importexport');
+      const response = await exportData('https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup/importexport');
       const csvData = response;
       return csvData;
       //Process the csv data as needed 
@@ -118,7 +118,7 @@ const RefDataIncotermsLookup = () => {
 
         fileReader.onload = () => {
           const csvData = fileReader.result;
-          importData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/importexport', csvData);
+          importData('https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup/importexport', csvData);
         }
         fileReader.readAsText(file);
         setShow(false);
@@ -136,7 +136,7 @@ const RefDataIncotermsLookup = () => {
   // to delete all the data 
   const handleDeleteAll = async () => {
     try {
-      const response = await deleteAllData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/importexport', {
+      const response = await deleteAllData('https://oiv6now4mf.execute-api.us-east-1.amazonaws.com/dsp-scx-tps/dsptpssitesagreementlookup/importexport', {
         method: 'DELETE',
         'Content-Type': 'application/json'
       });
@@ -158,7 +158,7 @@ const RefDataIncotermsLookup = () => {
 
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
-      <Header title="Reference Data: IncoTerms Lookup" />
+      <Header title="TPS Agreement Sites Lookup Page" />
       <div className='button-section  mt-5 d-flex justify-content-end'>
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
@@ -199,29 +199,23 @@ const RefDataIncotermsLookup = () => {
             <thead>
               <tr>
                 <th scope="col">DATA&nbsp;SOURCE</th>
-                <th scope="col">ERP&nbsp;TERM</th>
-                <th scope="col">ERP&nbsp;NAME</th>
-                <th scope="col">SCX&nbsp;TERM</th>
-                <th scope="col">SCX&nbsp;NAME</th>
-                <th scope="col">ADDED&nbsp;BY</th>
-                <th scope="col">ADDED&nbsp;ON</th>
-                <th scope="col">CHANGED&nbsp;BY</th>
-                <th scope="col">CHANGED&nbsp;ON</th>
+                <th scope="col">ORG&nbsp;ID</th>
+                <th scope="col">GSL6</th>
+                <th scope="col">GSL</th>
+                <th scope="col">TPS&nbsp;AGREEMENT</th>
+                <th scope="col">DISCOUNT&nbsp;FUNDING&nbsp;MODEL</th>
                 <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
-              {RefDataIncotermLookupData.map((item) => (
+              {TpsAgreementSitesLookupData.map((item) => (
                 <tr className='dsp-ellipsis' key={item['id']}>
-                  <td title={item.zsource}>{item.zsource}</td>
-                  <td title={item['ERP Term']}>{item['ERP Term']}</td>
-                  <td title={item['ERP Name']}>{item['ERP Name']}</td>
-                  <td title={item['SCX Term']}>{item['SCX Term']}</td>
-                  <td title={item['SCX Name']}>{item['SCX Name']}</td>
-                  <td title={item.addedby}>{item.addedby}</td>
-                  <td title={item.addedon}>{item.addedon}</td>
-                  <td title={item.changedby}>{item.changedby}</td>
-                  <td title={item.changedon}>{item.changedon}</td>
+                  <td title={item.data_source}>{item.data_source}</td>
+                  <td title={item.org_id}>{item.org_id}</td>
+                  <td title={item.gsl6}>{item.gsl6}</td>
+                  <td title={item.gsl}>{item.gsl}</td>
+                  <td title={item.tps_agreement}>{item.tps_agreement}</td>
+                  <td title={item.discount_funding_model}>{item.discount_funding_model}</td>
                   <td>
                     <button type='button' className='btn-warning remove-border-icon me-3' onClick={() => handleEditData(item)}>
                       <FontAwesomeIcon icon={faPen} className='edit-icon' />
@@ -234,7 +228,7 @@ const RefDataIncotermsLookup = () => {
               ))}
             </tbody>
           </table>
-          <AddDataFormRefDataIncotermLookup
+          <AddDataFormTpsAgreementSitesLookup
             show={showAddForm}
             editData={editData}
             handleSaveData={handleSaveData}
@@ -249,4 +243,4 @@ const RefDataIncotermsLookup = () => {
   );
 };
 
-export default RefDataIncotermsLookup;
+export default TpsAgreementSitesLookup;
