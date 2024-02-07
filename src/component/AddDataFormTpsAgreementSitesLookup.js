@@ -86,27 +86,27 @@ const AddDataFormTpsAgreementSitesLookup = ({ show, handleSaveData, handleClose,
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="DATA&nbsp;SOURCE">
+          <Form.Group controlId="data_source">
             <Form.Label>DATA&nbsp;SOURCE:</Form.Label>
             <Form.Control type="text" name="data_source" value={formData.data_source || ''} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="ORG&nbsp;ID">
+          <Form.Group controlId="data_source">
             <Form.Label>ORG&nbsp;ID:</Form.Label>
-            <Form.Control type="number" name="ORG ID" value={formData.org_id} onChange={handleChange} />
+            <Form.Control type="text" name="org_id" value={formData.org_id} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="GSL6">
+          <Form.Group controlId="gsl6">
             <Form.Label>GSL6:</Form.Label>
-            <Form.Control type="text" name="GSL6" value={formData.gsl6} onChange={handleChange} />
+            <Form.Control type="text" name="gsl6" value={formData.gsl6} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="GSL">
+          <Form.Group controlId="gsl">
             <Form.Label>GSL:</Form.Label>
-            <Form.Control type="text" name="GSL" value={formData.gsl} onChange={handleChange} />
+            <Form.Control type="text" name="gsl" value={formData.gsl} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="TPS&nbsp;AGREEMENT">
+          <Form.Group controlId="tps_agreement">
             <Form.Label>TPS&nbsp;AGREEMENT:</Form.Label>
-            <Form.Control type="text" name="TPS&nbsp;AGREEMENT" value={formData.tps_agreement} onChange={handleChange} />
+            <Form.Control type="text" name="tps_agreement" value={formData.tps_agreement} onChange={handleChange} />
           </Form.Group>
-          <Form.Group controlId="DISCOUNT&nbsp;FUNDING&nbsp;MODEL">
+          <Form.Group controlId="tps_agreement">
             <Form.Label>DISCOUNT&nbsp;FUNDING&nbsp;MODEL:</Form.Label>
             <Form.Control type="text" name="discount_funding_model" value={formData.discount_funding_model} onChange={handleChange} />
           </Form.Group>

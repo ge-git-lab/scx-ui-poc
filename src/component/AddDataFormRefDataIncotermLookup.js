@@ -95,7 +95,7 @@ const AddDataFormRefDataIncotermLookup = ({ show, handleSaveData, handleClose, e
           </Form.Group>
           <Form.Group controlId="ERP Term">
             <Form.Label>ERP&nbsp;TERM:</Form.Label>
-            <Form.Control type="number" name="ERP Term" value={formData['ERP Term']} onChange={handleChange} />
+            <Form.Control type="text" name="ERP Term" value={formData['ERP Term']} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="ERP Name">
             <Form.Label>ERP&nbsp;NAME:</Form.Label>
