@@ -8,10 +8,10 @@ import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from
 import '../styles/CopySubsProject.css';
 import { fetchData, saveData, deleteData, deleteAllData, importData, exportData} from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
-import AddDataFormRefDataIncotermLookup from '../component/AddDataFormRefDataIncotermLookup';
+import AddDataFormRefDataTaxClassificationLookup from '../component/AddDataFormRefDataTaxClassificationLookup';
 
-const RefDataIncotermsLookup = () => {
-  const [RefDataIncotermLookupData, setRefDataIncotermLookupData] = useState([]);
+const RefDataTaxClassificationLookup = () => {
+  const [RefDataTaxClassificationData, setRefDataTaxClassificationData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const fileInputRef = useRef(null);
@@ -22,8 +22,8 @@ const RefDataIncotermsLookup = () => {
   //to fetch the data from backend 
   const fetchDataAndSetState = async () => {
     try {
-      const result = await fetchData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup');
-      setRefDataIncotermLookupData(result);
+      const result = await fetchData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup');
+      setRefDataTaxClassificationData(result);
     } catch (error) {
       console.log('Error fetching the data');
     }
@@ -54,7 +54,7 @@ const RefDataIncotermsLookup = () => {
   //function to save a data
   const handleSaveData = async (data) => {
     try {
-      await saveData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup', data);
+      await saveData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup', data);
       fetchDataAndSetState();
     } catch (error) {
       console.error('Error saving data:', error);
@@ -64,7 +64,7 @@ const RefDataIncotermsLookup = () => {
   //to delete a single item
   const handleDeleteData = async (idToDelete) => {
     try {
-      const result = await deleteData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup', idToDelete)
+      const result = await deleteData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup', idToDelete)
       console.log(result)
       if (result.status === 200) {
         toast.success('Deleted all data successfully!', {
@@ -98,7 +98,7 @@ const RefDataIncotermsLookup = () => {
   // to hadle the import data from db
   const handleImport = async () => {
     try {
-      const response = await exportData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/importexport');
+      const response = await exportData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/importexport');
       const csvData = response;
       return csvData;
       //Process the csv data as needed 
@@ -118,7 +118,7 @@ const RefDataIncotermsLookup = () => {
 
         fileReader.onload = () => {
           const csvData = fileReader.result;
-          importData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/importexport', csvData);
+          importData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/importexport', csvData);
         }
         fileReader.readAsText(file);
         setShow(false);
@@ -136,7 +136,7 @@ const RefDataIncotermsLookup = () => {
   // to delete all the data 
   const handleDeleteAll = async () => {
     try {
-      const response = await deleteAllData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup/importexport', {
+      const response = await deleteAllData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/importexport', {
         method: 'DELETE',
         'Content-Type': 'application/json'
       });
@@ -158,7 +158,7 @@ const RefDataIncotermsLookup = () => {
 
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
-      <Header title="Reference Data: IncoTerms Lookup" />
+      <Header title="Reference Data: Tax Classification Lookup" />
       <div className='button-section  mt-5 d-flex justify-content-end'>
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
@@ -199,10 +199,11 @@ const RefDataIncotermsLookup = () => {
             <thead>
               <tr>
                 <th scope="col">DATA&nbsp;SOURCE</th>
-                <th scope="col">ERP&nbsp;NAME</th>
-                <th scope="col">ERP&nbsp;NAME</th>
-                <th scope="col">SCX&nbsp;TERM</th>
-                <th scope="col">SCX&nbsp;NAME</th>
+                <th scope="col">ERP&nbsp;TAX&nbsp;CLASSIFICATION</th>
+                <th scope="col">US/Non_US</th>
+                <th scope="col">SCX&nbsp;TAX&nbsp;CLASSIFICATION</th>
+                <th scope="col">FORMAT</th>
+                <th scope="col">REQUIRED</th>
                 <th scope="col">ADDED&nbsp;BY</th>
                 <th scope="col">ADDED&nbsp;ON</th>
                 <th scope="col">CHANGED&nbsp;BY</th>
@@ -211,13 +212,14 @@ const RefDataIncotermsLookup = () => {
               </tr>
             </thead>
             <tbody>
-              {RefDataIncotermLookupData.map((item) => (
-                <tr className='dsp-ellipsis' key={item['id']}>
+              {RefDataTaxClassificationData.map((item) => (
+                <tr className='dsp-ellipsis' key={item.id}>
                   <td title={item.zsource}>{item.zsource}</td>
-                  <td title={item['ERP Term']}>{item['ERP Term']}</td>
-                  <td title={item['ERP Name']}>{item['ERP Name']}</td>
-                  <td title={item['SCX Term']}>{item['SCX Term']}</td>
-                  <td title={item['SCX Name']}>{item['SCX Name']}</td>
+                  <td title={item['ERP Tax Classification']}>{item['ERP Tax Classification']}</td>
+                  <td title={item['US/Non_US']}>{item['US/Non_US']}</td>
+                  <td title={item['SCX Tax Classification']}>{item['SCX Tax Classification']}</td>
+                  <td title={item.format}>{item.format}</td>
+                  <td title={item.required}>{item.required}</td>
                   <td title={item.addedby}>{item.addedby}</td>
                   <td title={item.addedon}>{item.addedon}</td>
                   <td title={item.changedby}>{item.changedby}</td>
@@ -234,7 +236,7 @@ const RefDataIncotermsLookup = () => {
               ))}
             </tbody>
           </table>
-          <AddDataFormRefDataIncotermLookup
+          <AddDataFormRefDataTaxClassificationLookup
             show={showAddForm}
             editData={editData}
             handleSaveData={handleSaveData}
@@ -249,4 +251,4 @@ const RefDataIncotermsLookup = () => {
   );
 };
 
-export default RefDataIncotermsLookup;
+export default RefDataTaxClassificationLookup;

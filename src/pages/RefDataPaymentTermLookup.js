@@ -8,10 +8,10 @@ import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from
 import '../styles/CopySubsProject.css';
 import { fetchData, saveData, deleteData, deleteAllData, importData, exportData} from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
-import AddDataFormRefDataIncotermLookup from '../component/AddDataFormRefDataIncotermLookup';
+import AddDataFormRefDataPaymentTermLookup from '../component/AddDataFormRefDataPaymentTermLookup';
 
-const RefDataIncotermsLookup = () => {
-  const [RefDataIncotermLookupData, setRefDataIncotermLookupData] = useState([]);
+const RefDataPaymentTermLookup = () => {
+  const [RefDataPaymentTermLookupData, setRefDataPaymentTermLookupData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const fileInputRef = useRef(null);
@@ -23,7 +23,7 @@ const RefDataIncotermsLookup = () => {
   const fetchDataAndSetState = async () => {
     try {
       const result = await fetchData('https://jlqq9h5b2c.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsprefdataincotermlookup');
-      setRefDataIncotermLookupData(result);
+      setRefDataPaymentTermLookupData(result);
     } catch (error) {
       console.log('Error fetching the data');
     }
@@ -158,7 +158,7 @@ const RefDataIncotermsLookup = () => {
 
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
-      <Header title="Reference Data: IncoTerms Lookup" />
+      <Header title="Reference Data: Payment Term Lookup" />
       <div className='button-section  mt-5 d-flex justify-content-end'>
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
@@ -200,9 +200,22 @@ const RefDataIncotermsLookup = () => {
               <tr>
                 <th scope="col">DATA&nbsp;SOURCE</th>
                 <th scope="col">ERP&nbsp;NAME</th>
-                <th scope="col">ERP&nbsp;NAME</th>
-                <th scope="col">SCX&nbsp;TERM</th>
+                <th scope="col">ERP&nbsp;DESCRIPTION</th>
                 <th scope="col">SCX&nbsp;NAME</th>
+                <th scope="col">SCX&nbsp;DESCRIPTION</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">DISCOUNT1&nbsp;PERCENT</th>
+                <th scope="col">DISCOUNT1&nbsp;DAYS</th>
+                <th scope="col">DISCOUNT2&nbsp;PERCENT</th>
+                <th scope="col">DISCOUNT2&nbsp;DAYS</th>
+                <th scope="col">DISCOUNT3&nbsp;PERCENT</th>
+                <th scope="col">DISCOUNT3&nbsp;DAYS</th>
+                <th scope="col">NET&nbsp;DUE&nbsp;DAYS</th>
+                <th scope="col">SETTLEMENT&nbsp;FREQUENCY</th>
+                <th scope="col">DUE&nbsp;DATE&nbsp;OF&nbsp;MONTH</th>
+                <th scope="col">DUE&nbsp;MONTHS&nbsp;FORWARD</th>
+                <th scope="col">IS&nbsp;APPROVED</th>
+                <th scope="col">ADDED</th>
                 <th scope="col">ADDED&nbsp;BY</th>
                 <th scope="col">ADDED&nbsp;ON</th>
                 <th scope="col">CHANGED&nbsp;BY</th>
@@ -211,13 +224,26 @@ const RefDataIncotermsLookup = () => {
               </tr>
             </thead>
             <tbody>
-              {RefDataIncotermLookupData.map((item) => (
+              {RefDataPaymentTermLookupData.map((item) => (
                 <tr className='dsp-ellipsis' key={item['id']}>
                   <td title={item.zsource}>{item.zsource}</td>
-                  <td title={item['ERP Term']}>{item['ERP Term']}</td>
-                  <td title={item['ERP Name']}>{item['ERP Name']}</td>
-                  <td title={item['SCX Term']}>{item['SCX Term']}</td>
-                  <td title={item['SCX Name']}>{item['SCX Name']}</td>
+                  <td title={item.erp_name}>{item.erp_name}</td>
+                  <td title={item.erp_description}>{item.erp_description}</td>
+                  <td title={item.scx_name}>{item.scx_name}</td>
+                  <td title={item.scx_description}>{item.scx_description}</td>
+                  <td title={item.type}>{item.type}</td>
+                  <td title={item.discount1_percent}>{item.discount1_percent}</td>
+                  <td title={item.discount1days}>{item.discount1days}</td>
+                  <td title={item.discount2_percent}>{item.discount2_percent}</td>
+                  <td title={item.discount2days}>{item.discount2days}</td>
+                  <td title={item.discount3_percent}>{item.discount3_percent}</td>
+                  <td title={item.discount3days}>{item.discount3days}</td>
+                  <td title={item.net_due_days}>{item.net_due_days}</td>
+                  <td title={item.settlement_frequency}>{item.settlement_frequency}</td>
+                  <td title={item.due_day_of_month}>{item.due_day_of_month}</td>
+                  <td title={item.due_months_forward}>{item.due_months_forward}</td>
+                  <td title={item.is_approved}>{item.is_approved}</td>
+                  <td title={item.added}>{item.added}</td>
                   <td title={item.addedby}>{item.addedby}</td>
                   <td title={item.addedon}>{item.addedon}</td>
                   <td title={item.changedby}>{item.changedby}</td>
@@ -234,7 +260,7 @@ const RefDataIncotermsLookup = () => {
               ))}
             </tbody>
           </table>
-          <AddDataFormRefDataIncotermLookup
+          <AddDataFormRefDataPaymentTermLookup
             show={showAddForm}
             editData={editData}
             handleSaveData={handleSaveData}
@@ -249,4 +275,4 @@ const RefDataIncotermsLookup = () => {
   );
 };
 
-export default RefDataIncotermsLookup;
+export default RefDataPaymentTermLookup;

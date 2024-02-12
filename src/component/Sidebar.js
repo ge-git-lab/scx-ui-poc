@@ -74,14 +74,14 @@ const Sidebar = () => {
                 Reference Data: IncoTerms Lookup
             </Link>
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
+            <Link to="/refdatapaymenttermlookup" className="sidebar-link">
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                Gold/BUC/Branch Top side update
+                Reference Data: Payment Term Lookup
             </Link>
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
+            <Link to="/refdatataxclassificationlookup" className="sidebar-link">
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                GSL6 and GSL9 Merge
+                Reference Data: Tax Classification Lookup
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
