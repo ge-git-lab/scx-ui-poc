@@ -65,7 +65,6 @@ const RefDataTaxClassificationLookup = () => {
   const handleDeleteData = async (idToDelete) => {
     try {
       const result = await deleteData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup', idToDelete)
-      console.log(result)
       if (result.status === 200) {
         toast.success('Deleted all data successfully!', {
           position: toast.POSITION.TOP_CENTER
@@ -88,7 +87,7 @@ const RefDataTaxClassificationLookup = () => {
     const csvLink = document.createElement('a');
     csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
     csvLink.target = '_blank';
-    csvLink.download = 'reference_data_incoterm_lookup.csv';
+    csvLink.download = 'reference_data_tax_classification_lookup.csv';
     csvLink.click();
     fetchDataAndSetState();
     toast.success('Data imported successfully!', {
@@ -102,7 +101,6 @@ const RefDataTaxClassificationLookup = () => {
       const csvData = response;
       return csvData;
       //Process the csv data as needed 
-      console.log(csvData);
     } catch (error) {
       console.error('Error importing data:', error);
     }
@@ -213,11 +211,11 @@ const RefDataTaxClassificationLookup = () => {
             </thead>
             <tbody>
               {RefDataTaxClassificationData.map((item) => (
-                <tr className='dsp-ellipsis' key={item.id}>
+                <tr className='dsp-ellipsis' key={item.primaryrefid}>
                   <td title={item.zsource}>{item.zsource}</td>
-                  <td title={item['ERP Tax Classification']}>{item['ERP Tax Classification']}</td>
-                  <td title={item['US/Non_US']}>{item['US/Non_US']}</td>
-                  <td title={item['SCX Tax Classification']}>{item['SCX Tax Classification']}</td>
+                  <td title={item.erp_tax_classification}>{item.erp_tax_classification}</td>
+                  <td title={item.us_or_non_us}>{item.us_or_non_us}</td>
+                  <td title={item.scx_tax_classification}>{item.scx_tax_classification}</td>
                   <td title={item.format}>{item.format}</td>
                   <td title={item.required}>{item.required}</td>
                   <td title={item.addedby}>{item.addedby}</td>
@@ -228,7 +226,7 @@ const RefDataTaxClassificationLookup = () => {
                     <button type='button' className='btn-warning remove-border-icon me-3' onClick={() => handleEditData(item)}>
                       <FontAwesomeIcon icon={faPen} className='edit-icon' />
                     </button>
-                    <button type='button' className='btn-danger remove-border-icon' onClick={() => handleDeleteData(item.id)}>
+                    <button type='button' className='btn-danger remove-border-icon' onClick={() => handleDeleteData(item.primaryrefid)}>
                       <FontAwesomeIcon className='delete-icon' icon={faTrashAlt} />
                     </button>
                   </td>

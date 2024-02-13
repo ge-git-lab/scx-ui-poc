@@ -12,7 +12,7 @@ const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchData
     "subscription_id": "",
     "sc_id": "",
     "address_scid": "",
-    "Tax_id": "",
+    "tax_id": "",
     "tax_classification": "",
     "missing_values": "",
     "processing_status": "",
@@ -89,9 +89,9 @@ const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchData
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="DATA_SOURCE">
+          <Form.Group controlId="data_source">
             <Form.Label>DATA_SOURCE:</Form.Label>
-            <Form.Control type="text" name="DATA_SOURCE" value={formData.DATA_SOURCE || ''} onChange={handleChange} />
+            <Form.Control type="text" name="data_source" value={formData.data_source} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="subscription_id">
             <Form.Label>SUBSCRIPTION_ID:</Form.Label>
@@ -111,7 +111,7 @@ const AddDataFormTax = ({ show, handleSaveData, handleClose, editData, fetchData
           </Form.Group>
           <Form.Group controlId="tax_classification">
             <Form.Label>TAX_CLASSIFICATIONS:</Form.Label>
-            <Form.Control type="text" name="tax_classification" value={formData.tax_classifications} onChange={handleChange} />
+            <Form.Control type="text" name="tax_classification" value={formData.tax_classification} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="missing_values">
             <Form.Label>MISSING_VALUES:</Form.Label>

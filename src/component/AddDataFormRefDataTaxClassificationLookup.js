@@ -9,15 +9,15 @@ const AddDataFormRefDataTaxClassificationLookup = ({ show, handleSaveData, handl
   // const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(editData || {
     "zsource": "",
-    "ERP Tax Classification": "",
-    "US/Non_US": "",
-    "SCX Tax Classification": "",
+    "erp_tax_classification": "",
+    "us_or_non_us": "",
+    "scx_tax_classification": "",
     "format": "",
     "required": "",
     "addedby": "",
     "addedon": "",
     "changedby": "",
-    "changedon": "",
+    "changedon": ""
   }); //initialize formData with editData if provided
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const AddDataFormRefDataTaxClassificationLookup = ({ show, handleSaveData, handl
   const handleEditData = async (data) => {
     try {
       // Make the PUT request to update existing data
-      const response = await fetch(`https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/${editData.id}`, {
+      const response = await fetch(`https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/${editData.primaryrefid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -86,33 +86,33 @@ const AddDataFormRefDataTaxClassificationLookup = ({ show, handleSaveData, handl
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{formData.id ? 'Edit Data' : 'Add Data'}</Modal.Title>
+        <Modal.Title>{formData.primaryrefid ? 'Edit Data' : 'Add Data'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="DATA_SOURCE">
+          <Form.Group controlId="zsource">
             <Form.Label>DATA&nbsp;SOURCE:</Form.Label>
-            <Form.Control type="text" name="zsource" value={formData.zsource || ''} onChange={handleChange} />
+            <Form.Control type="text" name="zsource" value={formData.zsource} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="ERP Tax Classification">
             <Form.Label>ERP&nbsp;TAX&nbsp;CLASSIFICATION:</Form.Label>
-            <Form.Control type="text" name="ERP Tax Classification" value={formData['ERP Tax Classification']} onChange={handleChange} />
+            <Form.Control type="text" name="erp_tax_classification" value={formData.erp_tax_classification} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="US/Non_US">
             <Form.Label>US/Non_US:</Form.Label>
-            <Form.Control type="text" name="US/Non_US" value={formData['US/Non_US']} onChange={handleChange} />
+            <Form.Control type="text" name="us_or_non_us" value={formData.us_or_non_us} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="SCX Tax Classification">
             <Form.Label>SCX&nbsp;TAX&nbsp;CLASSIFICATION:</Form.Label>
-            <Form.Control type="text" name="SCX Tax Classification" value={formData['SCX Tax Classification']} onChange={handleChange} />
+            <Form.Control type="text" name="scx_tax_classification" value={formData.scx_tax_classification} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="format">
             <Form.Label>FORMAT:</Form.Label>
-            <Form.Control type="text" name="format" value={formData['format']} onChange={handleChange} />
+            <Form.Control type="text" name="format" value={formData.format} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="required">
             <Form.Label>REQUIRED:</Form.Label>
-            <Form.Control type="text" name="required" value={formData['required']} onChange={handleChange} />
+            <Form.Control type="text" name="required" value={formData.required} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="addedby">
             <Form.Label>ADDED&nbsp;BY:</Form.Label>
@@ -137,7 +137,7 @@ const AddDataFormRefDataTaxClassificationLookup = ({ show, handleSaveData, handl
           Close
         </Button>
         <Button variant="primary" onClick={handleSave} >
-          {formData.id ? 'Save Changes' : 'Save Data'}
+          {formData.primaryrefid ? 'Save Changes' : 'Save Data'}
         </Button>
       </Modal.Footer>
     </Modal>
