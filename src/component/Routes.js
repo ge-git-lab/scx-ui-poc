@@ -13,6 +13,7 @@ import RefDataIncotermsLookup from '../pages/RefDataIncotermsLookup';
 import TpsAgreementSitesLookup from '../pages/TpsAgreementSitesLookup';
 import RefDataPaymentTermLookup from '../pages/RefDataPaymentTermLookup';
 import RefDataTaxClassificationLookup from '../pages/RefDataTaxClassificationLookup'
+import SettlementAndPaymentProcessLookup from '../pages/SettlementAndPaymentProcessLookup'
 
 const AppRoutes = () => {
     return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
             <Route exact path="/tpsagreementsiteslookup" element={<TpsAgreementSitesLookup />} />
             <Route exact path="/refdatapaymenttermlookup" element={<RefDataPaymentTermLookup />} />
             <Route exact path="/refdatataxclassificationlookup" element={<RefDataTaxClassificationLookup />} />
+            <Route exact path="/settlementpayprocesslookup" element={<SettlementAndPaymentProcessLookup />} />
         </Routes>
     );
 };

@@ -84,9 +84,9 @@ const Sidebar = () => {
                 Reference Data: Tax Classification Lookup
             </Link>
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
+            <Link to="/settlementpayprocesslookup" className="sidebar-link">
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                Fyi approvals
+                Settlement and Payment Process Look up
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
