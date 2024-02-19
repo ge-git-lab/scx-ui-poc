@@ -14,6 +14,7 @@ import TpsAgreementSitesLookup from '../pages/TpsAgreementSitesLookup';
 import RefDataPaymentTermLookup from '../pages/RefDataPaymentTermLookup';
 import RefDataTaxClassificationLookup from '../pages/RefDataTaxClassificationLookup'
 import SettlementAndPaymentProcessLookup from '../pages/SettlementAndPaymentProcessLookup'
+import ScxContactAddToExistSupplier from '../pages/ScxContactAddToExistSupplier'
 
 const AppRoutes = () => {
     return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
             <Route exact path="/refdatapaymenttermlookup" element={<RefDataPaymentTermLookup />} />
             <Route exact path="/refdatataxclassificationlookup" element={<RefDataTaxClassificationLookup />} />
             <Route exact path="/settlementpayprocesslookup" element={<SettlementAndPaymentProcessLookup />} />
+            <Route exact path="/scxcontactadditiontoexistingsupplier" element={<ScxContactAddToExistSupplier />} />
         </Routes>
     );
 };

@@ -89,9 +89,9 @@ const Sidebar = () => {
                 Settlement and Payment Process Look up
             </Link>
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
+            <Link to="/scxcontactadditiontoexistingsupplier" className="sidebar-link">
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                Gold BUC Info
+                SCX Contact Addition To Existing Suppliers
             </Link>
             <hr className="separator" />
             <Link to="/" className="sidebar-link">
