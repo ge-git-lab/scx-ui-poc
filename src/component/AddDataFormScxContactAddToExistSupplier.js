@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import handleSaveData from '../pages/CopySubsDQApproval'
+import handleSaveData from '../pages/ScxBankAddToExistSupplier'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { fetchData } from "./Api"
@@ -97,7 +97,7 @@ const AddDataFormScxContactAddToExistSupplier = ({ show, handleSaveData, handleC
           </Form.Group>
           <Form.Group controlId="scx_id">
             <Form.Label>SCX&nbsp;ID:</Form.Label>
-            <Form.Control type="number" name="scx_id" value={formData.scx_id} onChange={handleChange} />
+            <Form.Control type="text" name="scx_id" value={formData.scx_id} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="contact_types">
             <Form.Label>CONTACT&nbsp;TYPES:</Form.Label>

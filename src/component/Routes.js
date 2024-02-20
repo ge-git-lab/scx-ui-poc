@@ -15,6 +15,8 @@ import RefDataPaymentTermLookup from '../pages/RefDataPaymentTermLookup';
 import RefDataTaxClassificationLookup from '../pages/RefDataTaxClassificationLookup'
 import SettlementAndPaymentProcessLookup from '../pages/SettlementAndPaymentProcessLookup'
 import ScxContactAddToExistSupplier from '../pages/ScxContactAddToExistSupplier'
+import ScxBankAddToExistSupplier from '../pages/ScxBankAddToExistSupplier'
+import MdmBoxFolder from '../pages/MdmBoxFolder'
 
 const AppRoutes = () => {
     return (
@@ -32,6 +34,8 @@ const AppRoutes = () => {
             <Route exact path="/refdatataxclassificationlookup" element={<RefDataTaxClassificationLookup />} />
             <Route exact path="/settlementpayprocesslookup" element={<SettlementAndPaymentProcessLookup />} />
             <Route exact path="/scxcontactadditiontoexistingsupplier" element={<ScxContactAddToExistSupplier />} />
+            <Route exact path="/scxbankadditiontoexistingsupplier" element={<ScxBankAddToExistSupplier />} />
+            <Route exact path="/mdmboxfolder" element={<MdmBoxFolder />} />
         </Routes>
     );
 };

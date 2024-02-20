@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Sidebar.css'; // Import the CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faAngleRight, faHome, faFileAlt } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faAngleRight, faHome, faFileAlt, faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 
 const Sidebar = () => {
     const [showSubitems, setShowSubitems] = useState(false);
@@ -94,9 +94,14 @@ const Sidebar = () => {
                 SCX Contact Addition To Existing Suppliers
             </Link>
             <hr className="separator" />
-            <Link to="/" className="sidebar-link">
+            <Link to="/scxbankadditiontoexistingsupplier" className="sidebar-link">
                 <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
-                Update TaxId
+                SCX Bank Addition To Existing Suppliers
+            </Link>
+            <hr className="separator" />
+            <Link to="/mdmboxfolder" className="sidebar-link">
+                <FontAwesomeIcon icon={faFolderOpen} style={{ marginRight: '5px' }} />
+                MDM Box Folders
             </Link>
             {/* Add more sidebar links as needed */}
         </nav>
