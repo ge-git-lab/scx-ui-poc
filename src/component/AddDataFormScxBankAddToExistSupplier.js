@@ -100,7 +100,7 @@ const AddDataFormScxBankAddToExistSupplier = ({ show, handleSaveData, handleClos
         <Form>
           <Form.Group controlId="scx_id">
             <Form.Label>SCX&nbsp;ID:</Form.Label>
-            <Form.Control type="number" name="scx_id" value={formData.scx_id} onChange={handleChange} />
+            <Form.Control type="text" name="scx_id" value={formData.scx_id} onChange={handleChange} />
           </Form.Group>
           <Form.Group controlId="bank_account_name">
             <Form.Label>BANK&nbsp;ACCOUNT&nbsp;NAME:</Form.Label>
