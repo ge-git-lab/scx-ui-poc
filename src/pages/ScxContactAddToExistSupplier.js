@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../styles/Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddDataFormScxContactAddToExistSupplier from '../component/AddDataFormScxContactAddToExistSupplier';
@@ -84,12 +85,43 @@ const ScxContactAddToExistSupplier = () => {
     const actualData = JSON.parse(backendData);
     const headers = Object.keys(actualData[0]);
     const csvData = [headers, ...actualData.map(obj => Object.values(obj))];
-    //created a temp csv link to trigger the download
-    const csvLink = document.createElement('a');
-    csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
-    csvLink.target = '_blank';
-    csvLink.download = 'scx_contact_addtion_to_existing_supplier.csv';
-    csvLink.click();
+    console.log(csvData);
+    // Convert array of arrays to CSV string
+    const csvContent = csvData.map(subArray =>
+      subArray.map(item =>
+          `"${String(item).replace(/"/g, '""')}"` // Handle special characters
+      ).join(",")
+  ).join("\n");
+    // Create a Blob with the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    // Create a URL for the Blob
+    const blobURL = URL.createObjectURL(blob);
+
+    // Create an anchor element and set the attributes for downloading
+    const link = document.createElement("a");
+    link.setAttribute("href", blobURL);
+    link.setAttribute("download", "data.csv");
+
+    // Append the anchor to the body, click it, and then remove it
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up by revoking the Blob URL
+    URL.revokeObjectURL(blobURL);
+    // //created a temp csv link to trigger the download
+    // const csvLink = document.createElement('a');
+    // csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
+    // csvLink.target = '_blank';
+    // csvLink.download = 'scx_contact_addtion_to_existing_supplier.csv';
+    // csvLink.click();
+    // Convert data to CSV format
+
+
+
+
+
     fetchDataAndSetState();
     toast.success('Data imported successfully!', {
       position: toast.POSITION.TOP_CENTER
@@ -123,7 +155,7 @@ const ScxContactAddToExistSupplier = () => {
         }
         fileReader.readAsText(file);
         setShow(false);
-        // fetchDataAndSetState();
+        fetchDataAndSetState();
       } else {
         console.error('No file selected');
       }
