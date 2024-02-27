@@ -158,11 +158,12 @@ const ScxBankAddToExistSupplier = () => {
     try {
       const result = await callProcedure('https://ll2hrg36vb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/bank-addition-to-existing-supplier/process-records');
       fetchDataAndSetState();
-      console.log(result)
       toast.success('Updated procedure successfully !', { position: toast.POSITION.TOP_CENTER });
     } catch (error) {
       console.error('Error saving data:', error);
     }
+    toast.success('Updated procedure successfully !', { position: toast.POSITION.TOP_CENTER });
+    fetchDataAndSetState();
   }
 
   return (

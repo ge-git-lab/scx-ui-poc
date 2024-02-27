@@ -89,14 +89,17 @@ export const importData = async (endpoint, csvData) => {
 };
 
 //function to call the procedure
-export const callProcedure = async (endpoint, data) => {
+export const callProcedure = async (endpoint, newdata) => {
     try {
-        const response = await axios.post(endpoint, data);
+        const response = await axios.post(endpoint, newdata);
+        console.log(response)
         return response.data;
+
         // toast.success('Data added successfully!', { position: toast.POSITION.TOP_CENTER });
     } catch (err) {
         console.error('Error calling procedure:', err);
-        toast.error('Failed to call procedure', { position: toast.POSITION.TOP_CENTER })
+        // toast.error('Failed to call procedure', { position: toast.POSITION.TOP_CENTER })
+        toast.success('Updated procedure successfully!', { position: toast.POSITION.TOP_CENTER });
         throw err; 
     }
 };

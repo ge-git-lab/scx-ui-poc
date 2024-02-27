@@ -3,10 +3,12 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import handleSaveData from '../pages/MdmBoxFolder'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchData } from "./Api"
+import { fetchData, saveData } from "./Api"
 
 const AddDataFormMdmBoxFolder = ({ show, handleSaveData, handleClose, editData, fetchDataAndSetState }) => {
   // const [show, setShow] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('');
   const [formData, setFormData] = useState(editData || {
     "mdmboxid": "",
     "category": "",
@@ -20,6 +22,12 @@ const AddDataFormMdmBoxFolder = ({ show, handleSaveData, handleClose, editData, 
     if (editData) {
       setFormData(editData);
     }
+    async function fetchOptions() {
+      const response = await fetchData('https://2kn86v8khc.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/mdm-box-folder/category');
+      setOptions(response);
+      setSelectedOption(response[0]?.id); // Default to first option
+    }
+    fetchOptions();
   }, [editData]);
 
   const handleChange = (e) => {
@@ -54,6 +62,8 @@ const AddDataFormMdmBoxFolder = ({ show, handleSaveData, handleClose, editData, 
     toast.success('Data saved successfully !', { position: toast.POSITION.TOP_CENTER });
 
   };
+  
+
 
   const handleEditData = async (data) => {
     try {
@@ -91,7 +101,11 @@ const AddDataFormMdmBoxFolder = ({ show, handleSaveData, handleClose, editData, 
           </Form.Group>
           <Form.Group controlId="category">
             <Form.Label>CATEGORY:</Form.Label>
-            <Form.Control type="text" name="category" value={formData.category} onChange={handleChange} />
+            <Form.Control as="select" value={selectedOption} onChange={e => setSelectedOption(e.target.value)}>
+              {options.map((option) => (
+                <option key={option.id} value={option.id}>{option.category}</option>
+              ))}
+            </Form.Control>
           </Form.Group>
           <Form.Group controlId="sub_category">
             <Form.Label>SUB&nbsp;CATEGORY:</Form.Label>
