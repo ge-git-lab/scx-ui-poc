@@ -1,32 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../styles/Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Modal, Button } from 'react-bootstrap';
+import AddDataFormScxVatAddition from '../component/AddDataFormVatAddition';
+import { Modal, Button, Table } from 'react-bootstrap';
 import Header from '../component/Header';
 import { toast } from 'react-toastify';
-import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrashAlt, faUpload, faDownload, faPlus, faTrash, faSync, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import '../styles/CopySubsProject.css';
-import { fetchData, saveData, deleteData, deleteAllData, importData, exportData} from "../component/Api"
+import { fetchData, saveData, deleteData, deleteAllData, importData, exportData, callProcedure } from "../component/Api"
 import DeleteConfirmation from '../component/DeleteConfirmation';
-import AddDataFormRefDataTaxClassificationLookup from '../component/AddDataFormRefDataTaxClassificationLookup';
 
-const RefDataTaxClassificationLookup = () => {
-  const [RefDataTaxClassificationData, setRefDataTaxClassificationData] = useState([]);
+const ScxVatAddition = () => {
+  const [ScxVatAdditionData, setScxVatAdditionData] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editData, setEditData] = useState(null);
   const fileInputRef = useRef(null);
   const [show, setShow] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [itemNameToDelete, setItemNameToDelete] = useState('');
-
+  
   //to fetch the data from backend 
   const fetchDataAndSetState = async () => {
-    try {
-      const result = await fetchData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup');
-      setRefDataTaxClassificationData(result);
-    } catch (error) {
-      console.log('Error fetching the data');
-    }
+      try {
+        const result = await fetchData('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier');
+        setScxVatAdditionData(result);
+      } catch (error) {
+        console.log('Error fetching the data');
+      }
   }
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const RefDataTaxClassificationLookup = () => {
   //function to save a data
   const handleSaveData = async (data) => {
     try {
-      await saveData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup', data);
+      await saveData('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier', data);
       fetchDataAndSetState();
     } catch (error) {
       console.error('Error saving data:', error);
@@ -64,7 +65,8 @@ const RefDataTaxClassificationLookup = () => {
   //to delete a single item
   const handleDeleteData = async (idToDelete) => {
     try {
-      const result = await deleteData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup', idToDelete)
+      const result = await deleteData('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier', idToDelete)
+      console.log(result)
       if (result.status === 200) {
         toast.success('Deleted all data successfully!', {
           position: toast.POSITION.TOP_CENTER
@@ -87,8 +89,9 @@ const RefDataTaxClassificationLookup = () => {
     const csvLink = document.createElement('a');
     csvLink.href = encodeURI(`data:text/csv;charset=utf-8, ${csvData.join('\n').replace(/,/g, ',')}`);
     csvLink.target = '_blank';
-    csvLink.download = 'reference_data_tax_classification_lookup.csv';
+    csvLink.download = 'scx_vat_addtion_to_existing_supplier.csv';
     csvLink.click();
+
     fetchDataAndSetState();
     toast.success('Data exported successfully!', {
       position: toast.POSITION.TOP_CENTER
@@ -97,10 +100,11 @@ const RefDataTaxClassificationLookup = () => {
   // to hadle the import data from db
   const handleImport = async () => {
     try {
-      const response = await exportData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/importexport');
+      const response = await exportData('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier/importexport');
       const csvData = response;
       return csvData;
       //Process the csv data as needed 
+      console.log(csvData);
     } catch (error) {
       console.error('Error importing data:', error);
     }
@@ -116,7 +120,8 @@ const RefDataTaxClassificationLookup = () => {
 
         fileReader.onload = () => {
           const csvData = fileReader.result;
-          importData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/importexport', csvData);
+          console.log(csvData)
+          importData('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier/importexport', csvData);
         }
         fileReader.readAsText(file);
         setShow(false);
@@ -125,7 +130,7 @@ const RefDataTaxClassificationLookup = () => {
         console.error('No file selected');
       }
       toast.success('Data inserted successfully!', { position: toast.POSITION.TOP_CENTER });
-
+      fetchDataAndSetState();
     } catch (err) {
       console.error('Error exporting data:', err);
     }
@@ -134,10 +139,7 @@ const RefDataTaxClassificationLookup = () => {
   // to delete all the data 
   const handleDeleteAll = async () => {
     try {
-      const response = await deleteAllData('https://gndq3k7kvb.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/dsp-refdata-taxclassification-lookup/importexport', {
-        method: 'DELETE',
-        'Content-Type': 'application/json'
-      });
+      const response = await deleteAllData('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier/importexport', {});
 
       if (response.status === 200) {
         toast.success('Deleted all data successfully!', {
@@ -154,19 +156,33 @@ const RefDataTaxClassificationLookup = () => {
     }
   };
 
+  const handleUpdateProcedure = async () => {
+    try {
+      const result = await callProcedure('https://o971j813yd.execute-api.us-east-1.amazonaws.com/dsp-scx-ref/vat-addition-to-existing-supplier/update-procedure');
+      fetchDataAndSetState();
+      console.log(result)
+      toast.success('Updated procedure successfully !', { position: toast.POSITION.TOP_CENTER });
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  }
+
   return (
     <div className="col-12 d-flex flex-column" style={{ minHeight: '100vh' }}>
-      <Header title="Reference Data: Tax Classification Lookup" />
+      <Header title="SCX VAT Addition To Existing Suppliers" />
       <div className='button-section  mt-5 d-flex justify-content-end'>
         <button type='button' title='Add Data' className='btn-custom btn btn-custom-add me-1' onClick={handleAddData}>
           <FontAwesomeIcon icon={faPlus} className='icon-custom edit-icon' />
+        </button>
+        <button type='button' title='Process Records' className='btn-custom btn btn-custom-upload me-1' onClick={handleUpdateProcedure}>
+          <FontAwesomeIcon icon={faSync} className='icon-custom edit-icon' />
         </button>
         <button type='button' title='Import Data' className='btn-custom btn btn-custom-upload me-1' onClick={handleShow}>
           <FontAwesomeIcon icon={faUpload} className='icon-custom edit-icon' />
         </button>
         {/* Modal to attach the file for importing data */}
         <Modal
-          show={show} 
+          show={show}
           onHide={handleClose}
           contentLabel="File Attachment Modal">
           <Modal.Header closeButton>
@@ -196,37 +212,39 @@ const RefDataTaxClassificationLookup = () => {
           <table className="table table-striped dsp-custom-table">
             <thead>
               <tr>
-                <th scope="col">DATA&nbsp;SOURCE</th>
-                <th scope="col">ERP&nbsp;TAX&nbsp;CLASSIFICATION</th>
-                <th scope="col">US/Non_US</th>
-                <th scope="col">SCX&nbsp;TAX&nbsp;CLASSIFICATION</th>
-                <th scope="col">FORMAT</th>
-                <th scope="col">REQUIRED</th>
-                <th scope="col">ADDED&nbsp;BY</th>
-                <th scope="col">ADDED&nbsp;ON</th>
-                <th scope="col">CHANGED&nbsp;BY</th>
-                <th scope="col">CHANGED&nbsp;ON</th>
+                <th scope="col">SCX&nbsp;ID</th>
+                <th scope="col">ADDRESS&nbsp;SCX&nbsp;ID</th>
+                <th scope="col">TAX&nbsp;TAX&nbsp;TYPE</th>
+                <th scope="col">TAX&nbsp;TAX&nbsp;REGISTRATION&nbsp;NUMBER</th>
+                <th scope="col">TAX&nbsp;PROVINCE</th>
+                <th scope="col">TAX&nbsp;COUNTRY&nbsp;CODE</th>
+                <th scope="col">TAX&nbsp;TAX&nbsp;AUTHORITY</th>
+                <th scope="col">PROCESSING&nbsp;STATUS</th>
+                <th scope="col">PARTY&nbsp;EXT&nbsp;ID</th>
+                <th scope="col">TAX&nbsp;EXT&nbsp;ID</th>
+                <th scope="col">VENDOR&nbsp;SITE&nbsp;ID</th>
                 <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
-              {RefDataTaxClassificationData.map((item) => (
-                <tr className='dsp-ellipsis' key={item.primaryrefid}>
-                  <td title={item.zsource}>{item.zsource}</td>
-                  <td title={item.erp_tax_classification}>{item.erp_tax_classification}</td>
-                  <td title={item.us_or_non_us}>{item.us_or_non_us}</td>
-                  <td title={item.scx_tax_classification}>{item.scx_tax_classification}</td>
-                  <td title={item.format}>{item.format}</td>
-                  <td title={item.required}>{item.required}</td>
-                  <td title={item.addedby}>{item.addedby}</td>
-                  <td title={item.addedon}>{item.addedon}</td>
-                  <td title={item.changedby}>{item.changedby}</td>
-                  <td title={item.changedon}>{item.changedon}</td>
+              {ScxVatAdditionData.map((item) => (
+                <tr className='dsp-ellipsis' key={item.id}>
+                  <td title={item.scx_id}>{item.scx_id}</td>
+                  <td title={item.address_scx_id}>{item.address_scx_id}</td>
+                  <td title={item.tax_taxtype}>{item.tax_taxtype}</td>
+                  <td title={item.tax_taxregistrationnumber}>{item.tax_taxregistrationnumber}</td>
+                  <td title={item.tax_province}>{item.tax_province}</td>
+                  <td title={item.tax_countrycode}>{item.tax_countrycode}</td>
+                  <td title={item.tax_taxauthority}>{item.tax_taxauthority}</td>
+                  <td title={item.processing_status}>{item.processing_status}</td>
+                  <td title={item.party_ext_id}>{item.party_ext_id}</td>
+                  <td title={item.tax_ext_id}>{item.tax_ext_id}</td>
+                  <td title={item.vendor_site_id}>{item.vendor_site_id}</td>
                   <td>
                     <button type='button' className='btn-warning remove-border-icon me-3' onClick={() => handleEditData(item)}>
                       <FontAwesomeIcon icon={faPen} className='edit-icon' />
                     </button>
-                    <button type='button' className='btn-danger remove-border-icon' onClick={() => handleDeleteData(item.primaryrefid)}>
+                    <button type='button' className='btn-danger remove-border-icon' onClick={() => handleDeleteData(item.id)}>
                       <FontAwesomeIcon className='delete-icon' icon={faTrashAlt} />
                     </button>
                   </td>
@@ -234,7 +252,7 @@ const RefDataTaxClassificationLookup = () => {
               ))}
             </tbody>
           </table>
-          <AddDataFormRefDataTaxClassificationLookup
+          <AddDataFormScxVatAddition
             show={showAddForm}
             editData={editData}
             handleSaveData={handleSaveData}
@@ -249,4 +267,4 @@ const RefDataTaxClassificationLookup = () => {
   );
 };
 
-export default RefDataTaxClassificationLookup;
+export default ScxVatAddition;

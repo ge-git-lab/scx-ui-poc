@@ -99,6 +99,11 @@ const Sidebar = () => {
                 SCX Bank Addition To Existing Suppliers
             </Link>
             <hr className="separator" />
+            <Link to="/scxvatadditiontoexistingsupplier" className="sidebar-link">
+                <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
+                SCX VAT Addition To Existing Suppliers
+            </Link>
+            <hr className="separator" />
             <Link to="/mdmboxfolder" className="sidebar-link">
                 <FontAwesomeIcon icon={faFolderOpen} style={{ marginRight: '5px' }} />
                 MDM Box Folders

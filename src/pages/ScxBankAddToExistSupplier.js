@@ -162,7 +162,7 @@ const ScxBankAddToExistSupplier = () => {
     } catch (error) {
       console.error('Error saving data:', error);
     }
-    toast.success('Updated procedure successfully !', { position: toast.POSITION.TOP_CENTER });
+    // toast.success('Updated procedure successfully !', { position: toast.POSITION.TOP_CENTER });
     fetchDataAndSetState();
   }
 

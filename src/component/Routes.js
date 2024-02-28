@@ -16,6 +16,7 @@ import RefDataTaxClassificationLookup from '../pages/RefDataTaxClassificationLoo
 import SettlementAndPaymentProcessLookup from '../pages/SettlementAndPaymentProcessLookup'
 import ScxContactAddToExistSupplier from '../pages/ScxContactAddToExistSupplier'
 import ScxBankAddToExistSupplier from '../pages/ScxBankAddToExistSupplier'
+import ScxVatAddition from '../pages/ScxVatAddition'
 import MdmBoxFolder from '../pages/MdmBoxFolder'
 
 const AppRoutes = () => {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
             <Route exact path="/settlementpayprocesslookup" element={<SettlementAndPaymentProcessLookup />} />
             <Route exact path="/scxcontactadditiontoexistingsupplier" element={<ScxContactAddToExistSupplier />} />
             <Route exact path="/scxbankadditiontoexistingsupplier" element={<ScxBankAddToExistSupplier />} />
+            <Route exact path="/scxvatadditiontoexistingsupplier" element={<ScxVatAddition />} />
             <Route exact path="/mdmboxfolder" element={<MdmBoxFolder />} />
         </Routes>
     );
